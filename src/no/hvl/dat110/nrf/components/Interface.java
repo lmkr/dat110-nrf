@@ -3,32 +3,42 @@ package no.hvl.dat110.nrf.components;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import no.hvl.dat110.nrf.common.Logger;
 import no.hvl.dat110.nrf.common.Stopable;
 
 public class Interface extends Stopable {
 
-	private int id;
-	private IPAddress ipadr;
 	private Node node;
 	
+	private int id;
+	private IPAddress ipadr;
+
 	private Link incoming, outgoing;
 
 	protected LinkedBlockingQueue<Datagram> inqueue;
 
 	public Interface(int id, String name) {
-		super("if:" + name);
+		super(name + ": if " + id);
 		this.id = id;
 	}
 
-	public void configure(IPAddress ipadr) {
-		this.ipadr = ipadr;
+	public int getIfId() {
+		return this.id;
 	}
 	
+	public IPAddress getIPadr() {
+		return ipadr;
+	}
+
+	public void ipconfig(IPAddress ipadr) {
+		this.ipadr = ipadr;
+	}
+
 	public void connect(Link incoming, Link outgoing) {
 		this.incoming = incoming;
 		this.outgoing = outgoing;
 	}
-	
+
 	public void transmit(Datagram datagram) {
 		outgoing.transmit(datagram);
 	}
@@ -40,27 +50,27 @@ public class Interface extends Stopable {
 			inqueue.put(datagram);
 
 		} catch (InterruptedException ex) {
-			System.out.println("TransportSender thread " + ex.getMessage());
+			Logger.log(node.getName() + "if: " + id + ex.getMessage());
 			ex.printStackTrace();
 		}
 
 	}
-	
-	public void doProcess () {
-		
+
+	public void doProcess() {
+
 		Datagram datagram = null;
-		
+
 		try {
-			
-			 datagram = inqueue.poll(2, TimeUnit.SECONDS);
+
+			datagram = inqueue.poll(2, TimeUnit.SECONDS);
 
 		} catch (InterruptedException ex) {
-			System.out.println("TransportReceiver RDT3 - doProcess " + ex.getMessage());
+			Logger.log(node.getName() + "if: " + id + ex.getMessage());
 			ex.printStackTrace();
 		}
-		
+
 		if (datagram != null) {
-			node.route(datagram);
+			node.forward(datagram);
 		}
 	}
 }

@@ -1,5 +1,7 @@
 package no.hvl.dat110.nrf.components;
 
+import no.hvl.dat110.nrf.common.Logger;
+
 public class Host extends Node {
 
 	private Interface nif;
@@ -8,19 +10,44 @@ public class Host extends Node {
 		super(name);
 	}
 	
+	public void ifconfig(int id) {
+		nif = new Interface(id,super.name);
+	}
+	
 	public void start () {
-		// start the interface
+		
+		nif.run();
 	}
 	
 	public void stop () {
-		// stop the interface
+		
+		try {
+			
+			nif.doStop();
+			nif.join();
+			
+		} catch (InterruptedException ex) {
+
+			Logger.log("Host[" + name + "]" + ex.getMessage());
+			ex.printStackTrace();
+		}
 	}
 	
 	public void send(Segment segment, IPAddress dest) {
 		
+		// encapsulate segment from host into datagram
+		Datagram datagram = new Datagram(nif.getIPadr(),dest,segment);
+		
+		// transmit on the network interface of the host
+		nif.transmit(datagram);
 	}
 
-	public void route (Datagram datagram) {
-		// print out the receive segment
+	public void forward (Datagram datagram) {
+		
+		// forwarding on a host is deliver to the transport layer
+		if (nif.getIPadr().equals(datagram.getDestination())) {
+			Logger.log("Host[" + name + "]: " + "routing error");
+		} else
+			Logger.log("Host[" + name + "]: " + datagram.toString());
 	}
 }

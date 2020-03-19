@@ -2,7 +2,7 @@ package no.hvl.dat110.nrf.components;
 
 public abstract class Node {
 
-	private String name;
+	protected String name;
 
 	public Node(String name) {
 		super();
@@ -13,13 +13,9 @@ public abstract class Node {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	public abstract void start();
 	
 	public abstract void stop();
 	
-	public abstract void route(Datagram datagram);
+	public abstract void forward(Datagram datagram);
 }
