@@ -1,5 +1,7 @@
 package no.hvl.dat110.nrf.components;
 
+import no.hvl.dat110.nrf.addressing.Datagram;
+
 public abstract class Node {
 
 	protected String name;

@@ -3,6 +3,8 @@ package no.hvl.dat110.nrf.components;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
+import no.hvl.dat110.nrf.addressing.Datagram;
+import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.common.Logger;
 
 public class Router extends Node {

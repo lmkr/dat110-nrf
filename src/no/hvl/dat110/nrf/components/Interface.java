@@ -3,6 +3,8 @@ package no.hvl.dat110.nrf.components;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import no.hvl.dat110.nrf.addressing.Datagram;
+import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.common.Logger;
 import no.hvl.dat110.nrf.common.Stopable;
 

@@ -1,5 +1,8 @@
 package no.hvl.dat110.nrf.components;
 
+import no.hvl.dat110.nrf.addressing.Datagram;
+import no.hvl.dat110.nrf.addressing.IPAddress;
+import no.hvl.dat110.nrf.addressing.Segment;
 import no.hvl.dat110.nrf.common.Logger;
 
 public class Host extends Node {
