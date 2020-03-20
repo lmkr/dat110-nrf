@@ -13,17 +13,25 @@ public class Host extends Node {
 		super(name);
 	}
 	
-	public void ifconfig(int id) {
-		nif = new Interface(id,super.name);
+	public void ifconfig(int id, IPAddress ipadr) {
+		nif = new Interface(id,super.name,ipadr);
+	}
+	
+	public Interface getInterface(int id) {
+		// hosts can currently only have one interface
+		return nif;
 	}
 	
 	public void start () {
 		
+		Logger.log("Node: " + super.name + " - starting");
 		nif.run();
+		Logger.log("Node: " + super.name + " - started");
 	}
 	
 	public void stop () {
 		
+		Logger.log("Node: " + super.name + " - stopping");
 		try {
 			
 			nif.doStop();
@@ -34,6 +42,8 @@ public class Host extends Node {
 			Logger.log("Host[" + name + "]" + ex.getMessage());
 			ex.printStackTrace();
 		}
+		
+		Logger.log("Node: " + super.name + " - stopped");
 	}
 	
 	public void send(Segment segment, IPAddress dest) {

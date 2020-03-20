@@ -15,6 +15,8 @@ public abstract class Node {
 		return name;
 	}
 
+	public abstract Interface getInterface(int id);
+	
 	public abstract void start();
 	
 	public abstract void stop();

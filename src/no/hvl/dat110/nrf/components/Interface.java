@@ -19,7 +19,7 @@ public class Interface extends Stopable {
 
 	protected LinkedBlockingQueue<Datagram> inqueue;
 
-	public Interface(int id, String name) {
+	public Interface(int id, String name, IPAddress ipadr) {
 		super(name + ": if " + id);
 		this.id = id;
 	}
