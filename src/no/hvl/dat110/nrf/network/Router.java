@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import no.hvl.dat110.nrf.addressing.Datagram;
 import no.hvl.dat110.nrf.addressing.IPAddress;
+import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
 
 public class Router extends Node {
@@ -34,18 +35,18 @@ public class Router extends Node {
 	@Override
 	public void start() {
 
-		Logger.log(super.name + ": starting");
+		Logger.log(LogLevel.STARTSTOP,super.name + ": starting");
 		
 		interfaces.forEach(nif -> nif.start());
 		
-		Logger.log(super.name + ": started");
+		Logger.log(LogLevel.STARTSTOP,super.name + ": started");
 
 	}
 
 	@Override
 	public void stop() {
 
-		Logger.log(super.name + ": stopping");
+		Logger.log(LogLevel.STARTSTOP,super.name + ": stopping");
 
 		interfaces.forEach(
 
@@ -57,12 +58,12 @@ public class Router extends Node {
 						nif.join();
 
 					} catch (InterruptedException ex) {
-						Logger.log("Router[" + name + "]" + ex.getMessage());
+						Logger.log(LogLevel.ERROR,"Router[" + name + "]" + ex.getMessage());
 						ex.printStackTrace();
 					}
 				});
 
-		Logger.log(super.name + ": stopped");
+		Logger.log(LogLevel.STARTSTOP,super.name + ": stopped");
 	}
 
 	public void addRoute(IPAddress ipaddr, int nifid) {
@@ -89,10 +90,10 @@ public class Router extends Node {
 		Interface ninterface = getInterface(nifid);
 
 		if (ninterface != null) {
-			Logger.log(super.name + "[forwarding[" + ninterface.getIfId() + "]]:" + datagram.toString());
+			Logger.log(LogLevel.FORWARD,super.name + "[forwarding[" + ninterface.getIfId() + "]]:" + datagram.toString());
 			ninterface.transmit(datagram);
 		} else {
-			Logger.log(super.name + "[no route found]:" + datagram.toString());
+			Logger.log(LogLevel.FORWARD,super.name + "[no route found]:" + datagram.toString());
 		}
 	}
 }

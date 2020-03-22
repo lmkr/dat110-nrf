@@ -1,9 +1,11 @@
 package no.hvl.dat110.nrf.common;
 
 public class Logger {
+	
+	synchronized public static void log (boolean log,String message) {
 
-	synchronized public static void log (String message) {
-		
-		System.out.println(message);
+		if (log) {
+			System.out.println(message);
+		}
 	}
 }

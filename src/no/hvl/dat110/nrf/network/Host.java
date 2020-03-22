@@ -3,6 +3,7 @@ package no.hvl.dat110.nrf.network;
 import no.hvl.dat110.nrf.addressing.Datagram;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.addressing.Segment;
+import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
 
 public class Host extends Node implements INetworkLayerEntity {
@@ -29,14 +30,14 @@ public class Host extends Node implements INetworkLayerEntity {
 	}
 	public void start () {
 		
-		Logger.log(super.name + ": starting");
+		Logger.log(LogLevel.STARTSTOP,super.name + ": starting");
 		nif.start();
-		Logger.log(super.name + ": started");
+		Logger.log(LogLevel.STARTSTOP,super.name + ": started");
 	}
 	
 	public void stop () {
 		
-		Logger.log(super.name + ": stopping");
+		Logger.log(LogLevel.STARTSTOP,super.name + ": stopping");
 		try {
 			
 			nif.doStop();
@@ -44,21 +45,21 @@ public class Host extends Node implements INetworkLayerEntity {
 			
 		} catch (InterruptedException ex) {
 
-			Logger.log("Host[" + name + "]" + ex.getMessage());
+			Logger.log(LogLevel.STARTSTOP,"Host[" + name + "]" + ex.getMessage());
 			ex.printStackTrace();
 		}
 		
-		Logger.log(super.name + ": stopped");
+		Logger.log(LogLevel.STARTSTOP,super.name + ": stopped");
 	}
 
 	public void deliver (Datagram datagram) {
 		
 		if (nif.getIPaddr().equals(datagram.getDestination())) {
-			Logger.log(super.name + "[deliver]:" + datagram.toString());
+			Logger.log(LogLevel.DELIVER,super.name + "[deliver]:" + datagram.toString());
 			segment = datagram.getSegment();
 		} else {
-			Logger.log(super.name + "[routing error:" + nif.getIPaddr().toString() + "]:" + datagram.toString());
-			Logger.log(nif.getIPaddr().toString());
+			Logger.log(LogLevel.DELIVER,super.name + "[routing error:" + nif.getIPaddr().toString() + "]:" + datagram.toString());
+			Logger.log(LogLevel.DELIVER,nif.getIPaddr().toString());
 			
 		}
 			
@@ -69,7 +70,7 @@ public class Host extends Node implements INetworkLayerEntity {
 		// encapsulate segment from host into datagram
 		Datagram datagram = new Datagram(nif.getIPaddr(),destip,segment);
 			
-		Logger.log(super.name + "[udt_send]:" + datagram.toString());
+		Logger.log(LogLevel.UDT,super.name + "[udt_send]:" + datagram.toString());
 			
 		// transmit on the network interface of the host
 		nif.transmit(datagram);
@@ -78,7 +79,7 @@ public class Host extends Node implements INetworkLayerEntity {
 	
 	public Segment udt_recv() {
 		
-		Logger.log(super.name + "[udt_recv]:" + segment.toString());
+		Logger.log(LogLevel.UDT,super.name + "[udt_recv]:" + segment.toString());
 		
 		return segment;
 		
