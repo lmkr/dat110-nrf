@@ -7,14 +7,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import no.hvl.dat110.nrf.addressing.IPAddress;
+import no.hvl.dat110.nrf.addressing.Segment;
 import no.hvl.dat110.nrf.network.Host;
 import no.hvl.dat110.nrf.network.Network;
 import no.hvl.dat110.nrf.network.Router;
 
 class ExampleNetwork {
 
-	Network network;
-
+	private Network network;
+	private Host H1,H2,H3;
+	private Router R4, R5, R6, R7, R8;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 
@@ -22,13 +25,13 @@ class ExampleNetwork {
 		network = new Network("Example Network");
 
 		// hosts
-		Host H1 = new Host("H1");
+		H1 = new Host("H1");
 		H1.ifconfig(1, new IPAddress("1.1.1.1"));
 
-		Host H2 = new Host("H2");
+		H2 = new Host("H2");
 		H2.ifconfig(1, new IPAddress("2.3.2.1"));
 
-		Host H3 = new Host("H3");
+		H3 = new Host("H3");
 		H3.ifconfig(1, new IPAddress("3.4.3.1"));
 
 		network.add(H1);
@@ -36,25 +39,25 @@ class ExampleNetwork {
 		network.add(H3);
 
 		// routers
-		Router R4 = new Router("R4");
+		R4 = new Router("R4");
 		R4.ifconfig(1, new IPAddress("1.1.4.1"));
 		R4.ifconfig(2, new IPAddress("4.5.4.2"));
 		R4.ifconfig(3, new IPAddress("4.7.4.3"));
 
-		Router R5 = new Router("R5");
+		R5 = new Router("R5");
 		R5.ifconfig(1, new IPAddress("4.5.5.1"));
 		R5.ifconfig(2, new IPAddress("5.8.8.2"));
 
-		Router R6 = new Router("R6");
+		R6 = new Router("R6");
 		R6.ifconfig(1, new IPAddress("2.6.6.1"));
 		R6.ifconfig(2, new IPAddress("6.7.6.2"));
 
-		Router R7 = new Router("R7");
+		R7 = new Router("R7");
 		R7.ifconfig(1, new IPAddress("4.7.7.1"));
 		R7.ifconfig(2, new IPAddress("7.8.7.2"));
 		R7.ifconfig(3, new IPAddress("6.7.7.3"));
 
-		Router R8 = new Router("R8");
+		R8 = new Router("R8");
 		R8.ifconfig(1, new IPAddress("5.8.5.1"));
 		R8.ifconfig(2, new IPAddress("8.3.8.2"));
 		R8.ifconfig(3, new IPAddress("7.8.8.3"));
@@ -95,20 +98,23 @@ class ExampleNetwork {
 	@Test
 	void test() {
 
+		Segment segment = new Segment("En melding");
+		
+		H1.udt_send(segment, H3.getIPAddress());
+		
 		try {
-
-			// routes - TODO
 			
-			// sending some messages
+			// let the forwarding of the segment take place
 			Thread.sleep(10000);
-
-			// check that the message was received
-
+			
 		} catch (InterruptedException ex) {
 
-			System.out.println("Main thread " + ex.getMessage());
+			System.out.println("Main test thread - example network " + ex.getMessage());
 			ex.printStackTrace();
 		}
+		
+		assertEquals(segment.getPayload(),H3.udt_recv());
+		
 	}
 
 }

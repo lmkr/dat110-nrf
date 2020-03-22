@@ -20,7 +20,7 @@ public class Router extends Node {
 	}
 
 	public void ifconfig(int id, IPAddress ipadr) {
-		Interface nif = new Interface(id, super.name, ipadr);
+		Interface nif = new Interface(this, id, super.name, ipadr);
 		interfaces.add(nif);
 	}
 
@@ -34,16 +34,16 @@ public class Router extends Node {
 	@Override
 	public void start() {
 
-		Logger.log("Node: " + super.name + " - starting");
+		Logger.log(super.name + ": starting");
 		interfaces.forEach(nif -> nif.start());
-		Logger.log("Node: " + super.name + " - started");
+		Logger.log(super.name + ": started");
 
 	}
 
 	@Override
 	public void stop() {
 
-		Logger.log("Node: " + super.name + " - stopping");
+		Logger.log(super.name + ": stopping");
 
 		interfaces.forEach(
 
@@ -60,11 +60,13 @@ public class Router extends Node {
 					}
 				});
 
-		Logger.log("Node: " + super.name + " - stopped");
+		Logger.log(super.name + ": stopped");
 	}
 
 	public void addRoute(int nifid, IPAddress ipadr) {
 
+		assert (ipadr != null);
+		
 		routingtable.put(ipadr, nifid);
 
 	}
@@ -78,9 +80,10 @@ public class Router extends Node {
 		Interface ninterface = getInterface(nifid);
 
 		if (ninterface != null) {
+			Logger.log(super.name + "[forwarding]:" + datagram.toString());
 			ninterface.transmit(datagram);
 		} else {
-			Logger.log(super.name + "no route to destination" + datagram.toString());
+			Logger.log(super.name + "[no route]:" + datagram.toString());
 		}
 
 		// lookup and forward to the appropriate interface

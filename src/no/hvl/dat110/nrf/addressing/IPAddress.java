@@ -18,7 +18,23 @@ public class IPAddress {
 		return adr;
 	}
 
-	public boolean equals(IPAddress adr) {
-		return this.adr.equals(adr.getAdr());
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		
+		IPAddress other = (IPAddress) obj;
+		
+		if (adr == null) {
+			if (other.adr != null)
+				return false;
+		} else if (!adr.equals(other.adr))
+			return false;
+		
+		return true;
 	}
 }

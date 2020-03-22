@@ -5,16 +5,17 @@ import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.addressing.Segment;
 import no.hvl.dat110.nrf.common.Logger;
 
-public class Host extends Node {
+public class Host extends Node implements INetworkLayerEntity {
 
 	private Interface nif;
+	Segment segment = null;
 	
 	public Host(String name) {
 		super(name);
 	}
 	
 	public void ifconfig(int id, IPAddress ipadr) {
-		nif = new Interface(id,super.name,ipadr);
+		nif = new Interface(this,id,super.name,ipadr);
 	}
 	
 	public Interface getInterface(int id) {
@@ -22,16 +23,20 @@ public class Host extends Node {
 		return nif;
 	}
 	
+	public IPAddress getIPAddress() {
+		return nif.getIPadr();
+		
+	}
 	public void start () {
 		
-		Logger.log("Node: " + super.name + " - starting");
+		Logger.log(super.name + ": starting");
 		nif.start();
-		Logger.log("Node: " + super.name + " - started");
+		Logger.log(super.name + ": started");
 	}
 	
 	public void stop () {
 		
-		Logger.log("Node: " + super.name + " - stopping");
+		Logger.log(super.name + ": stopping");
 		try {
 			
 			nif.doStop();
@@ -43,7 +48,7 @@ public class Host extends Node {
 			ex.printStackTrace();
 		}
 		
-		Logger.log("Node: " + super.name + " - stopped");
+		Logger.log(super.name + ": stopped");
 	}
 	
 	public void send(Segment segment, IPAddress dest) {
@@ -51,6 +56,7 @@ public class Host extends Node {
 		// encapsulate segment from host into datagram
 		Datagram datagram = new Datagram(nif.getIPadr(),dest,segment);
 		
+		Logger.log(super.name + "[send]:" + datagram.toString());
 		// transmit on the network interface of the host
 		nif.transmit(datagram);
 	}
@@ -59,8 +65,24 @@ public class Host extends Node {
 		
 		// forwarding on a host is deliver to the transport layer
 		if (nif.getIPadr().equals(datagram.getDestination())) {
-			Logger.log("Host[" + name + "]: " + "routing error");
-		} else
-			Logger.log("Host[" + name + "]: " + datagram.toString());
+			Logger.log(super.name + "[forwarding]: " + datagram.toString());
+			segment = datagram.getPayload();
+		} else {
+			Logger.log(super.name + "[routing error:" + nif.getIPadr().toString() + "]:" + datagram.toString());
+			Logger.log(nif.getIPadr().toString());
+			
+		}
+			
+	}
+	
+	public void udt_send(Segment segment, IPAddress destip) {
+		
+		send(segment,destip);
+	}
+	
+	public Segment udt_recv() {
+		
+		return segment;
+		
 	}
 }
