@@ -1,4 +1,4 @@
-package no.hvl.dat110.nrf.components;
+package no.hvl.dat110.nrf.network;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;

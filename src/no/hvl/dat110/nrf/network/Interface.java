@@ -1,4 +1,4 @@
-package no.hvl.dat110.nrf.components;
+package no.hvl.dat110.nrf.network;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +22,7 @@ public class Interface extends Stopable {
 	public Interface(int id, String name, IPAddress ipadr) {
 		super(name + ": if " + id);
 		this.id = id;
+		inqueue = new LinkedBlockingQueue<Datagram>();
 	}
 
 	public int getIfId() {

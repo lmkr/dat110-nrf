@@ -1,4 +1,4 @@
-package no.hvl.dat110.nrf.components;
+package no.hvl.dat110.nrf.network;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class Network {
 	public void connect(Node node1, int nifid1, Node node2, int nifid2) {
 	
 		Interface nif1 = node1.getInterface(nifid1);
-		Interface nif2 = node1.getInterface(nifid2);
+		Interface nif2 = node2.getInterface(nifid2);
 		
 		Link link12 = new Link(node1.getName() + "->" + node2.getName(),nif1,nif2);
 		Link link21 = new Link(node2.getName() + "->" + node1.getName(),nif2,nif1);

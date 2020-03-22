@@ -1,4 +1,4 @@
-package no.hvl.dat110.nrf.components;
+package no.hvl.dat110.nrf.network;
 
 import no.hvl.dat110.nrf.addressing.Datagram;
 import no.hvl.dat110.nrf.addressing.IPAddress;
@@ -25,7 +25,7 @@ public class Host extends Node {
 	public void start () {
 		
 		Logger.log("Node: " + super.name + " - starting");
-		nif.run();
+		nif.start();
 		Logger.log("Node: " + super.name + " - started");
 	}
 	

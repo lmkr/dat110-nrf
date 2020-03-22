@@ -1,4 +1,4 @@
-package no.hvl.dat110.nrf.components;
+package no.hvl.dat110.nrf.network;
 
 import no.hvl.dat110.nrf.addressing.Datagram;
 
