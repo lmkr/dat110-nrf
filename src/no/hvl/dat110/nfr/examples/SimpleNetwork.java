@@ -59,29 +59,14 @@ class SimpleNetwork {
 	}
 
 	@Test
-	void test() {
+	void testh1h3() {
 
-		Segment segment13 = new Segment("En melding fra H1 til H3");
-		Segment segment31 = new Segment("En melding fra H3 til H1");
-
-		H1.udt_send(segment13, H3.getIPAddress());
-		H3.udt_send(segment31, H1.getIPAddress());
-
-		
-		try {
-
-			// let the forwarding of the segment take place
-			Thread.sleep(10000);
-
-		} catch (InterruptedException ex) {
-
-			System.out.println("Main test thread - simple network" + ex.getMessage());
-			ex.printStackTrace();
-		}
-
-		assertEquals(segment13.getPayload(), H3.udt_recv().getPayload());
-		assertEquals(segment31.getPayload(), H1.udt_recv().getPayload());
-
+		RoutingTestBase.test(H1, H3);
 	}
 
+	@Test
+	void testh3h1() {
+
+		RoutingTestBase.test(H1, H3);
+	}
 }

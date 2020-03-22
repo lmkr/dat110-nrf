@@ -2,6 +2,8 @@ package no.hvl.dat110.nrf.network;
 
 import java.util.ArrayList;
 
+import no.hvl.dat110.nrf.common.Logger;
+
 public class Network {
 
 	private String name;
@@ -36,14 +38,21 @@ public class Network {
 	
 	public void start() {
 		
+		Logger.log(this.name + ": starting");
+		
 		nodes.forEach(node -> node.start());
+		
+		Logger.log(this.name + ": started");
 		
 	}
 	
 	public void stop() {
 		
+		Logger.log(this.name + ": stopping");
+		
 		nodes.forEach(node -> node.stop());
 		
+		Logger.log(this.name + ": stopped");
 	}
 	
 }

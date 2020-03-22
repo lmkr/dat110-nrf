@@ -10,6 +10,7 @@ import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.addressing.Segment;
 import no.hvl.dat110.nrf.network.Host;
 import no.hvl.dat110.nrf.network.Network;
+import no.hvl.dat110.nrf.network.Node;
 import no.hvl.dat110.nrf.network.Router;
 
 class ExampleNetwork {
@@ -26,13 +27,13 @@ class ExampleNetwork {
 
 		// hosts
 		H1 = new Host("H1");
-		H1.ifconfig(1, new IPAddress("1.1.1.1"));
+		H1.ifconfig(1, new IPAddress("1.4.1.1"));
 
 		H2 = new Host("H2");
-		H2.ifconfig(1, new IPAddress("2.3.2.1"));
+		H2.ifconfig(1, new IPAddress("2.6.2.1"));
 
 		H3 = new Host("H3");
-		H3.ifconfig(1, new IPAddress("3.4.3.1"));
+		H3.ifconfig(1, new IPAddress("3.8.3.1"));
 
 		network.add(H1);
 		network.add(H2);
@@ -40,13 +41,13 @@ class ExampleNetwork {
 
 		// routers
 		R4 = new Router("R4");
-		R4.ifconfig(1, new IPAddress("1.1.4.1"));
+		R4.ifconfig(1, new IPAddress("1.4.4.1"));
 		R4.ifconfig(2, new IPAddress("4.5.4.2"));
 		R4.ifconfig(3, new IPAddress("4.7.4.3"));
 
 		R5 = new Router("R5");
 		R5.ifconfig(1, new IPAddress("4.5.5.1"));
-		R5.ifconfig(2, new IPAddress("5.8.8.2"));
+		R5.ifconfig(2, new IPAddress("5.8.5.2"));
 
 		R6 = new Router("R6");
 		R6.ifconfig(1, new IPAddress("2.6.6.1"));
@@ -59,7 +60,7 @@ class ExampleNetwork {
 
 		R8 = new Router("R8");
 		R8.ifconfig(1, new IPAddress("5.8.5.1"));
-		R8.ifconfig(2, new IPAddress("8.3.8.2"));
+		R8.ifconfig(2, new IPAddress("3.8.3.2"));
 		R8.ifconfig(3, new IPAddress("7.8.8.3"));
 
 		network.add(R4);
@@ -75,17 +76,35 @@ class ExampleNetwork {
 		network.connect(R4, 3, R7, 1);
 
 		network.connect(R5, 2, R8, 1);
+		
 		network.connect(R8, 2, H3, 1);
-
 		network.connect(R8, 3, R7, 2);
-		network.connect(R7, 3, R6, 1);
+		
+		network.connect(R7, 3, R6, 2);
 
 		network.connect(R6, 1, H2, 1);
+	
+		// routing		
+		R4.addRoute(H1.getIPAddress(),1);
+		R4.addRoute(H2.getIPAddress(),3);
+		R4.addRoute(H3.getIPAddress(),2);
 
-		network.connect(R4, 2, R5, 1);
-		network.connect(R4, 2, R5, 1);
-		network.connect(R4, 2, R5, 1);
-		
+		R5.addRoute(H1.getIPAddress(),1);
+		R5.addRoute(H2.getIPAddress(),1);
+		R5.addRoute(H3.getIPAddress(),2);
+
+		R6.addRoute(H1.getIPAddress(),2);
+		R6.addRoute(H2.getIPAddress(),1);
+		R6.addRoute(H3.getIPAddress(),2);
+
+		R7.addRoute(H1.getIPAddress(),1);
+		R7.addRoute(H2.getIPAddress(),3);
+		R7.addRoute(H3.getIPAddress(),2);
+
+		R8.addRoute(H1.getIPAddress(),1);
+		R8.addRoute(H2.getIPAddress(),3);
+		R8.addRoute(H3.getIPAddress(),2);
+
 		network.start();
 	}
 
@@ -94,27 +113,41 @@ class ExampleNetwork {
 
 		network.stop();
 	}
-
+	
 	@Test
-	void test() {
+	void test_h1h2() {
 
-		Segment segment = new Segment("En melding");
-		
-		H1.udt_send(segment, H3.getIPAddress());
-		
-		try {
-			
-			// let the forwarding of the segment take place
-			Thread.sleep(10000);
-			
-		} catch (InterruptedException ex) {
-
-			System.out.println("Main test thread - example network " + ex.getMessage());
-			ex.printStackTrace();
-		}
-		
-		assertEquals(segment.getPayload(),H3.udt_recv());
-		
+		RoutingTestBase.test(H1,H2);
 	}
+	
+	@Test
+	void test_h2h1() {
 
+		RoutingTestBase.test(H2,H1);
+	}
+	
+	@Test
+	void test_h1h3() {
+
+		RoutingTestBase.test(H1,H3);
+	}
+	
+	@Test
+	void test_h3h1() {
+
+		RoutingTestBase.test(H3,H1);
+	}
+	
+	
+	@Test
+	void test_h2h3() {
+
+		RoutingTestBase.test(H2,H3);
+	}
+	
+	@Test
+	void test_h3h2() {
+
+		RoutingTestBase.test(H2,H3);
+	}
 }

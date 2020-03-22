@@ -73,7 +73,8 @@ public class Router extends Node {
 
 	public void deliver(Datagram datagram) {
 		
-		Logger.log(super.name + "[deliver]:" + datagram.toString());
+		// reduce output a bit
+		// Logger.log(super.name + "[deliver]:" + datagram.toString());
 		forward(datagram);
 	}
 
@@ -86,7 +87,7 @@ public class Router extends Node {
 		Interface ninterface = getInterface(nifid);
 
 		if (ninterface != null) {
-			Logger.log(super.name + "[forwarding[" + ninterface.getIfId() + "]:" + datagram.toString());
+			Logger.log(super.name + "[forwarding[" + ninterface.getIfId() + "]]:" + datagram.toString());
 			ninterface.transmit(datagram);
 		} else {
 			Logger.log(super.name + "[no route]:" + datagram.toString());
