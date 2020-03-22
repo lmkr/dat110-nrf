@@ -75,7 +75,7 @@ public class Interface extends Stopable {
 		}
 
 		if (datagram != null) {
-			node.forward(datagram);
+			node.deliver(datagram);
 		}
 	}
 }

@@ -45,8 +45,8 @@ class SimpleNetwork {
 		network.connect(H1, 1, R2, 1);
 		network.connect(R2, 2, H3, 1);
 
-		R2.addRoute(1, H1.getIPAddress());
-		R2.addRoute(2, H3.getIPAddress());
+		R2.addRoute(H1.getIPAddress(), 1);
+		R2.addRoute(H3.getIPAddress(), 2);
 		
 		network.start();
 	}

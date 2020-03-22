@@ -11,12 +11,12 @@ public class Router extends Node {
 
 	private ArrayList<Interface> interfaces;
 
-	protected ConcurrentHashMap<IPAddress, Integer> routingtable;
+	protected ConcurrentHashMap<IPAddress, Integer> forwardingtable;
 
 	public Router(String name) {
 		super(name);
 		interfaces = new ArrayList<Interface>();
-		routingtable = new ConcurrentHashMap<IPAddress,Integer>();
+		forwardingtable = new ConcurrentHashMap<IPAddress,Integer>();
 	}
 
 	public void ifconfig(int id, IPAddress ipadr) {
@@ -63,29 +63,33 @@ public class Router extends Node {
 		Logger.log(super.name + ": stopped");
 	}
 
-	public void addRoute(int nifid, IPAddress ipadr) {
+	public void addRoute(IPAddress ipadr, int nifid) {
 
 		assert (ipadr != null);
 		
-		routingtable.put(ipadr, nifid);
+		forwardingtable.put(ipadr, nifid);
 
 	}
 
-	public void forward(Datagram datagram) {
+	public void deliver(Datagram datagram) {
+		
+		Logger.log(super.name + "[deliver]:" + datagram.toString());
+		forward(datagram);
+	}
 
+	private void forward(Datagram datagram) {
+		
 		IPAddress dest = datagram.getDestination();
 
-		int nifid = routingtable.get(dest);
+		int nifid = forwardingtable.get(dest);
 
 		Interface ninterface = getInterface(nifid);
 
 		if (ninterface != null) {
-			Logger.log(super.name + "[forwarding]:" + datagram.toString());
+			Logger.log(super.name + "[forwarding[" + ninterface.getIfId() + "]:" + datagram.toString());
 			ninterface.transmit(datagram);
 		} else {
 			Logger.log(super.name + "[no route]:" + datagram.toString());
 		}
-
-		// lookup and forward to the appropriate interface
 	}
 }

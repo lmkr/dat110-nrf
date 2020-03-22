@@ -50,23 +50,13 @@ public class Host extends Node implements INetworkLayerEntity {
 		
 		Logger.log(super.name + ": stopped");
 	}
-	
-	public void send(Segment segment, IPAddress dest) {
-		
-		// encapsulate segment from host into datagram
-		Datagram datagram = new Datagram(nif.getIPadr(),dest,segment);
-		
-		Logger.log(super.name + "[send]:" + datagram.toString());
-		// transmit on the network interface of the host
-		nif.transmit(datagram);
-	}
 
-	public void forward (Datagram datagram) {
+	public void deliver (Datagram datagram) {
 		
 		// forwarding on a host is deliver to the transport layer
 		if (nif.getIPadr().equals(datagram.getDestination())) {
-			Logger.log(super.name + "[forwarding]: " + datagram.toString());
-			segment = datagram.getPayload();
+			Logger.log(super.name + "[deliver]:" + datagram.toString());
+			segment = datagram.getSegment();
 		} else {
 			Logger.log(super.name + "[routing error:" + nif.getIPadr().toString() + "]:" + datagram.toString());
 			Logger.log(nif.getIPadr().toString());
@@ -77,10 +67,19 @@ public class Host extends Node implements INetworkLayerEntity {
 	
 	public void udt_send(Segment segment, IPAddress destip) {
 		
-		send(segment,destip);
+		// encapsulate segment from host into datagram
+		Datagram datagram = new Datagram(nif.getIPadr(),destip,segment);
+			
+		Logger.log(super.name + "[udt_send]:" + datagram.toString());
+			
+		// transmit on the network interface of the host
+		nif.transmit(datagram);
+			
 	}
 	
 	public Segment udt_recv() {
+		
+		Logger.log(super.name + "[udt_recv]:" + segment.toString());
 		
 		return segment;
 		

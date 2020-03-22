@@ -21,5 +21,5 @@ public abstract class Node {
 	
 	public abstract void stop();
 	
-	public abstract void forward(Datagram datagram);
+	public abstract void deliver(Datagram datagram);
 }
