@@ -36,6 +36,11 @@ public class Interface extends Stopable {
 		return ipaddr;
 	}
 
+	public Link getOutgoing () {
+		
+		return outgoing;
+	}
+	
 	public void ipconfig(IPAddress ipadr) {
 		this.ipaddr = ipadr;
 	}
@@ -78,5 +83,14 @@ public class Interface extends Stopable {
 		if (datagram != null) {
 			node.deliver(datagram);
 		}
+	}
+	
+	public void display() {
+						
+		IPAddress destip = outgoing.getDest().getIPaddr();
+		
+		Logger.log(
+				LogLevel.NETWORK, "if[" + id + "][" + ipaddr + "<->" + destip.toString() + "]");
+						
 	}
 }

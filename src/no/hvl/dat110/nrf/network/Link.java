@@ -15,6 +15,14 @@ public class Link {
 		this.destif = destif;
 	}
 	
+	public Interface getSrc() {
+		return srcif;
+	}
+	
+	public Interface getDest() {
+		return destif;
+	}
+	
 	public void transmit(Datagram datagram) {
 	
 		destif.receive(datagram.clone());

@@ -7,5 +7,6 @@ public class LogLevel {
 	public static boolean UDT = true;
 	public static boolean DELIVER = true;
 	public static boolean ERROR = true;
+	public static boolean NETWORK = true;
 
 }

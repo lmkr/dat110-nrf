@@ -31,7 +31,7 @@ public class Router extends Node {
 
 		return ninterface;
 	}
-
+	
 	@Override
 	public void start() {
 
@@ -76,8 +76,7 @@ public class Router extends Node {
 
 	public void deliver(Datagram datagram) {
 		
-		// reduce output a bit
-		// Logger.log(super.name + "[deliver]:" + datagram.toString());
+		Logger.log(LogLevel.DELIVER,super.name + "[deliver]:" + datagram.toString());
 		forward(datagram);
 	}
 
@@ -95,5 +94,28 @@ public class Router extends Node {
 		} else {
 			Logger.log(LogLevel.FORWARD,super.name + "[no route found]:" + datagram.toString());
 		}
+	}
+	
+	private void displayInterfaces() {
+				
+		interfaces.forEach(
+					nif -> {
+						nif.display();
+					});
+	}
+	
+	private void displayForwardingTable() {
+		
+		forwardingtable.forEach(
+				(ipaddr,nifid) -> Logger.log(LogLevel.NETWORK, ipaddr.toString() + "->" + nifid));
+		
+	}
+	
+	public void display() {
+		
+		Logger.log(LogLevel.NETWORK, "=================");
+		Logger.log(LogLevel.NETWORK, "Host: " + super.name);
+		displayInterfaces();
+		displayForwardingTable();
 	}
 }

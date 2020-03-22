@@ -101,6 +101,7 @@ class ExampleNetwork {
 		R8.addRoute(H2.getIPAddress(),3);
 		R8.addRoute(H3.getIPAddress(),2);
 
+		network.display();
 		network.start();
 	}
 

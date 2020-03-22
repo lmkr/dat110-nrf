@@ -1,5 +1,7 @@
 package no.hvl.dat110.nrf.network;
 
+import java.util.Set;
+
 import no.hvl.dat110.nrf.addressing.Datagram;
 
 public abstract class Node {
@@ -16,10 +18,13 @@ public abstract class Node {
 	}
 
 	public abstract Interface getInterface(int id);
-	
+		
 	public abstract void start();
 	
 	public abstract void stop();
 	
 	public abstract void deliver(Datagram datagram);
+	
+	public abstract void display();
+	
 }

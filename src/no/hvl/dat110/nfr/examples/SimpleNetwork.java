@@ -49,6 +49,7 @@ class SimpleNetwork {
 		R2.addRoute(H1.getIPAddress(), 1);
 		R2.addRoute(H3.getIPAddress(), 2);
 		
+		network.display();
 		network.start();
 	}
 

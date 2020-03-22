@@ -1,5 +1,8 @@
 package no.hvl.dat110.nrf.network;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import no.hvl.dat110.nrf.addressing.Datagram;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.addressing.Segment;
@@ -23,7 +26,7 @@ public class Host extends Node implements INetworkLayerEntity {
 		// hosts can currently only have one interface
 		return nif;
 	}
-	
+
 	public IPAddress getIPAddress() {
 		return nif.getIPaddr();
 		
@@ -84,4 +87,19 @@ public class Host extends Node implements INetworkLayerEntity {
 		return segment;
 		
 	}
+	
+	public void display() {
+		
+		Logger.log(LogLevel.NETWORK, "=================");
+		Logger.log(LogLevel.NETWORK, "Host: " + super.name);
+		displayInterface();
+		
+	}
+	
+	private void displayInterface() {
+		
+		nif.display();
+		
+	}
+
 }
