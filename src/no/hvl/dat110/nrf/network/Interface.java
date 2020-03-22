@@ -13,17 +13,17 @@ public class Interface extends Stopable {
 	private Node node;
 	
 	private int id;
-	private IPAddress ipadr;
+	private IPAddress ipaddr;
 
 	private Link incoming, outgoing;
 
 	protected LinkedBlockingQueue<Datagram> inqueue;
 
-	public Interface(Node node, int id, String name, IPAddress ipadr) {
+	public Interface(Node node, int id, String name, IPAddress ipaddr) {
 		super(name + ": interface[" + id + "]");
 		this.node = node;
 		this.id = id;
-		this.ipadr = ipadr;
+		this.ipaddr = ipaddr;
 		inqueue = new LinkedBlockingQueue<Datagram>();
 	}
 
@@ -31,12 +31,12 @@ public class Interface extends Stopable {
 		return this.id;
 	}
 	
-	public IPAddress getIPadr() {
-		return ipadr;
+	public IPAddress getIPaddr() {
+		return ipaddr;
 	}
 
 	public void ipconfig(IPAddress ipadr) {
-		this.ipadr = ipadr;
+		this.ipaddr = ipadr;
 	}
 
 	public void connect(Link incoming, Link outgoing) {

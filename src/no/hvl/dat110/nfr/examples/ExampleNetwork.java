@@ -1,16 +1,12 @@
 package no.hvl.dat110.nfr.examples;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import no.hvl.dat110.nrf.addressing.IPAddress;
-import no.hvl.dat110.nrf.addressing.Segment;
 import no.hvl.dat110.nrf.network.Host;
 import no.hvl.dat110.nrf.network.Network;
-import no.hvl.dat110.nrf.network.Node;
 import no.hvl.dat110.nrf.network.Router;
 
 class ExampleNetwork {
@@ -22,7 +18,7 @@ class ExampleNetwork {
 	@BeforeEach
 	void setUp() throws Exception {
 
-		// Adressing scheme for interface on N1: N1.N2.N1.IFID
+		// Addressing scheme for interface on N1: N1.N2.N1.IFID
 		network = new Network("Example Network");
 
 		// hosts
@@ -84,7 +80,7 @@ class ExampleNetwork {
 
 		network.connect(R6, 1, H2, 1);
 	
-		// routing		
+		// routes		
 		R4.addRoute(H1.getIPAddress(),1);
 		R4.addRoute(H2.getIPAddress(),3);
 		R4.addRoute(H3.getIPAddress(),2);

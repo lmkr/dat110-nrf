@@ -14,8 +14,8 @@ public class Host extends Node implements INetworkLayerEntity {
 		super(name);
 	}
 	
-	public void ifconfig(int id, IPAddress ipadr) {
-		nif = new Interface(this,id,super.name,ipadr);
+	public void ifconfig(int id, IPAddress addr) {
+		nif = new Interface(this,id,super.name,addr);
 	}
 	
 	public Interface getInterface(int id) {
@@ -24,7 +24,7 @@ public class Host extends Node implements INetworkLayerEntity {
 	}
 	
 	public IPAddress getIPAddress() {
-		return nif.getIPadr();
+		return nif.getIPaddr();
 		
 	}
 	public void start () {
@@ -53,13 +53,12 @@ public class Host extends Node implements INetworkLayerEntity {
 
 	public void deliver (Datagram datagram) {
 		
-		// forwarding on a host is deliver to the transport layer
-		if (nif.getIPadr().equals(datagram.getDestination())) {
+		if (nif.getIPaddr().equals(datagram.getDestination())) {
 			Logger.log(super.name + "[deliver]:" + datagram.toString());
 			segment = datagram.getSegment();
 		} else {
-			Logger.log(super.name + "[routing error:" + nif.getIPadr().toString() + "]:" + datagram.toString());
-			Logger.log(nif.getIPadr().toString());
+			Logger.log(super.name + "[routing error:" + nif.getIPaddr().toString() + "]:" + datagram.toString());
+			Logger.log(nif.getIPaddr().toString());
 			
 		}
 			
@@ -68,7 +67,7 @@ public class Host extends Node implements INetworkLayerEntity {
 	public void udt_send(Segment segment, IPAddress destip) {
 		
 		// encapsulate segment from host into datagram
-		Datagram datagram = new Datagram(nif.getIPadr(),destip,segment);
+		Datagram datagram = new Datagram(nif.getIPaddr(),destip,segment);
 			
 		Logger.log(super.name + "[udt_send]:" + datagram.toString());
 			

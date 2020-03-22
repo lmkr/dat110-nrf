@@ -45,6 +45,7 @@ class SimpleNetwork {
 		network.connect(H1, 1, R2, 1);
 		network.connect(R2, 2, H3, 1);
 
+		// routes / forwarding tables
 		R2.addRoute(H1.getIPAddress(), 1);
 		R2.addRoute(H3.getIPAddress(), 2);
 		

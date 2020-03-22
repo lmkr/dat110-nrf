@@ -19,8 +19,8 @@ public class Router extends Node {
 		forwardingtable = new ConcurrentHashMap<IPAddress,Integer>();
 	}
 
-	public void ifconfig(int id, IPAddress ipadr) {
-		Interface nif = new Interface(this, id, super.name, ipadr);
+	public void ifconfig(int id, IPAddress ipaddr) {
+		Interface nif = new Interface(this, id, super.name, ipaddr);
 		interfaces.add(nif);
 	}
 
@@ -35,7 +35,9 @@ public class Router extends Node {
 	public void start() {
 
 		Logger.log(super.name + ": starting");
+		
 		interfaces.forEach(nif -> nif.start());
+		
 		Logger.log(super.name + ": started");
 
 	}
@@ -63,11 +65,11 @@ public class Router extends Node {
 		Logger.log(super.name + ": stopped");
 	}
 
-	public void addRoute(IPAddress ipadr, int nifid) {
+	public void addRoute(IPAddress ipaddr, int nifid) {
 
-		assert (ipadr != null);
+		assert (ipaddr != null);
 		
-		forwardingtable.put(ipadr, nifid);
+		forwardingtable.put(ipaddr, nifid);
 
 	}
 
@@ -90,7 +92,7 @@ public class Router extends Node {
 			Logger.log(super.name + "[forwarding[" + ninterface.getIfId() + "]]:" + datagram.toString());
 			ninterface.transmit(datagram);
 		} else {
-			Logger.log(super.name + "[no route]:" + datagram.toString());
+			Logger.log(super.name + "[no route found]:" + datagram.toString());
 		}
 	}
 }

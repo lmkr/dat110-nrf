@@ -2,20 +2,20 @@ package no.hvl.dat110.nrf.addressing;
 
 public class IPAddress {
 
-	private String adr;
+	private String addr;
 
-	public IPAddress(String adr) {
+	public IPAddress(String addr) {
 		super();
-		this.adr = adr;
+		this.addr = addr;
 	}
 
-	public String getAdr() {
-		return this.adr;
+	public String getAddr() {
+		return this.addr;
 	}
 
 	@Override
 	public String toString() {
-		return adr;
+		return addr;
 	}
 
 	@Override
@@ -29,10 +29,10 @@ public class IPAddress {
 		
 		IPAddress other = (IPAddress) obj;
 		
-		if (adr == null) {
-			if (other.adr != null)
+		if (addr == null) {
+			if (other.addr != null)
 				return false;
-		} else if (!adr.equals(other.adr))
+		} else if (!addr.equals(other.addr))
 			return false;
 		
 		return true;
