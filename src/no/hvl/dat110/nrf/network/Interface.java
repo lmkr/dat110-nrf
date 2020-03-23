@@ -16,8 +16,8 @@ public class Interface extends Stopable {
 	private int id;
 	private IPAddress ipaddr;
 
-	private Link incoming, outgoing;
-
+	private Port port;
+	
 	protected LinkedBlockingQueue<Datagram> inqueue;
 
 	public Interface(Node node, int id, String name, IPAddress ipaddr) {
@@ -36,9 +36,9 @@ public class Interface extends Stopable {
 		return ipaddr;
 	}
 
-	public Link getOutgoing () {
+	public Port getPort () {
 		
-		return outgoing;
+		return port;
 	}
 	
 	public void ipconfig(IPAddress ipadr) {
@@ -46,12 +46,11 @@ public class Interface extends Stopable {
 	}
 
 	public void connect(Link incoming, Link outgoing) {
-		this.incoming = incoming;
-		this.outgoing = outgoing;
+		this.port = new Port(incoming,outgoing);
 	}
 
 	public void transmit(Datagram datagram) {
-		outgoing.transmit(datagram);
+		port.transmit(datagram);
 	}
 
 	public void receive(Datagram datagram) {
@@ -87,7 +86,7 @@ public class Interface extends Stopable {
 	
 	public void display() {
 						
-		IPAddress destip = outgoing.getDest().getIPaddr();
+		IPAddress destip = port.getOutgoing().getDest().getIPaddr();
 		
 		Logger.log(
 				LogLevel.NETWORK, "if[" + id + "][" + ipaddr + "<->" + destip.toString() + "]");
