@@ -20,6 +20,10 @@ public class Segment {
 		// FIXME: clone payload?
 	}
 
+	public byte[] getBytes() {
+		return payload.getBytes();
+	}
+	
 	@Override
 	public String toString() {
 		return "Segment [payload=" + payload + "]";

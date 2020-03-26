@@ -22,4 +22,5 @@ Network layer routing and forwarding framework
 - terminology: forwarding tables vs. routing tables
 - (network) interface vs. java interface
 - exercise with the stopable abstraction
+- introduce explicit transport layer with trl_send, trl_deliver?
  

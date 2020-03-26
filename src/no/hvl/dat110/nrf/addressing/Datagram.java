@@ -3,13 +3,13 @@ package no.hvl.dat110.nrf.addressing;
 public class Datagram {
 
 	private IPAddress source, destination;	
-	private Segment segment;
+	private byte[] data;
 
-	public Datagram(IPAddress source, IPAddress destination, Segment segment) {
+	public Datagram(IPAddress source, IPAddress destination, byte[] data) {
 		super();
 		this.source = source;
 		this.destination = destination;
-		this.segment = segment;
+		this.data = data;
 	}
 
 	public IPAddress getSource() {
@@ -20,22 +20,17 @@ public class Datagram {
 		return destination;
 	}
 
-	public Segment getSegment() {
-		return segment;
+	public byte[] getData() {
+		return data;
 	}
-
-	public void setPayload(Segment payload) {
-		this.segment = payload;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "Datagram [src=" + source + ", dest=" + destination + ", [" + segment.toString() + "]";
+		return "Datagram [src=" + source + ", dest=" + destination + ", [" + data.toString() + "]";
 	}	
 	
 	public Datagram clone () {
-		return new Datagram(this.source,this.destination,this.segment.clone());
+		return new Datagram(this.source,this.destination,this.data.clone());
 		
-		//FIXME: clone strings?
 	}
 }

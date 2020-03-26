@@ -11,7 +11,7 @@ public class RoutingTestBase {
 		
 		Segment segment12 = new Segment(n1.getName() + "->" + n2.getName() + " melding");
 		
-		n1.udt_send(segment12, n2.getIPAddress());
+		n1.udt_send(segment12.getBytes(), n2.getIPAddress());
 		
 		try {
 			

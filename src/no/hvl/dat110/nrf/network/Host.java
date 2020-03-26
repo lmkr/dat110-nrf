@@ -59,7 +59,7 @@ public class Host extends Node implements INetworkLayerEntity {
 		
 		if (nif.getIPaddr().equals(datagram.getDestination())) {
 			Logger.log(LogLevel.DELIVER,super.name + "[deliver]:" + datagram.toString());
-			segment = datagram.getSegment();
+			segment = new Segment(new String(datagram.getData()));
 		} else {
 			Logger.log(LogLevel.DELIVER,super.name + "[routing error:" + nif.getIPaddr().toString() + "]:" + datagram.toString());
 			Logger.log(LogLevel.DELIVER,nif.getIPaddr().toString());
@@ -68,10 +68,10 @@ public class Host extends Node implements INetworkLayerEntity {
 			
 	}
 	
-	public void udt_send(Segment segment, IPAddress destip) {
+	public void udt_send(byte[] data, IPAddress destip) {
 		
 		// encapsulate segment from host into datagram
-		Datagram datagram = new Datagram(nif.getIPaddr(),destip,segment);
+		Datagram datagram = new Datagram(nif.getIPaddr(),destip,data);
 			
 		Logger.log(LogLevel.UDT,super.name + "[udt_send]:" + datagram.toString());
 			
