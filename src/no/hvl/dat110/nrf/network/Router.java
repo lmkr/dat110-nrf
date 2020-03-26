@@ -7,17 +7,18 @@ import no.hvl.dat110.nrf.addressing.Datagram;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
+import no.hvl.dat110.nrf.dataplane.ForwardingTable;
 
 public class Router extends Node {
 
 	private ArrayList<Interface> interfaces;
 
-	protected ConcurrentHashMap<IPAddress, Integer> forwardingtable;
+	protected ForwardingTable forwardingtable;
 
 	public Router(String name) {
 		super(name);
 		interfaces = new ArrayList<Interface>();
-		forwardingtable = new ConcurrentHashMap<IPAddress,Integer>();
+		forwardingtable = new ForwardingTable();
 	}
 
 	public void ifconfig(int id, IPAddress ipaddr) {
@@ -70,7 +71,7 @@ public class Router extends Node {
 
 		assert (ipaddr != null);
 		
-		forwardingtable.put(ipaddr, nifid);
+		forwardingtable.addRoute(ipaddr, nifid);
 
 	}
 
@@ -84,7 +85,7 @@ public class Router extends Node {
 		
 		IPAddress dest = datagram.getDestination();
 
-		int nifid = forwardingtable.get(dest);
+		int nifid = forwardingtable.match(dest);
 
 		Interface ninterface = getInterface(nifid);
 
@@ -106,8 +107,7 @@ public class Router extends Node {
 	
 	private void displayForwardingTable() {
 		
-		forwardingtable.forEach(
-				(ipaddr,nifid) -> Logger.log(LogLevel.NETWORK, ipaddr.toString() + "->" + nifid));
+		forwardingtable.display();
 		
 	}
 	
