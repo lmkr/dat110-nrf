@@ -1,7 +1,7 @@
 package no.hvl.dat110.nrf.network;
 
+import no.hvl.dat110.nfr.examples.Segment;
 import no.hvl.dat110.nrf.addressing.IPAddress;
-import no.hvl.dat110.nrf.addressing.Segment;
 
 public interface INetworkLayerEntity {
 
@@ -9,6 +9,6 @@ public interface INetworkLayerEntity {
 	public void udt_send(byte[] data, IPAddress destip);
 	
 	// assume only one message will be received by a host;
-	public Segment udt_recv();
+	public byte[] udt_recv();
 	
 }

@@ -1,4 +1,4 @@
-package no.hvl.dat110.nrf.addressing;
+package no.hvl.dat110.nfr.examples;
 
 public class Segment {
 

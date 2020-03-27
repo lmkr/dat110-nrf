@@ -3,16 +3,16 @@ package no.hvl.dat110.nrf.network;
 import java.util.ArrayList;
 import java.util.Set;
 
+import no.hvl.dat110.nfr.examples.Segment;
 import no.hvl.dat110.nrf.addressing.Datagram;
 import no.hvl.dat110.nrf.addressing.IPAddress;
-import no.hvl.dat110.nrf.addressing.Segment;
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
 
 public class Host extends Node implements INetworkLayerEntity {
-
+	
 	private Interface nif;
-	Segment segment = null;
+	byte[] data = null;
 	
 	public Host(String name) {
 		super(name);
@@ -59,7 +59,7 @@ public class Host extends Node implements INetworkLayerEntity {
 		
 		if (nif.getIPaddr().equals(datagram.getDestination())) {
 			Logger.log(LogLevel.DELIVER,super.name + "[deliver]:" + datagram.toString());
-			segment = new Segment(new String(datagram.getData()));
+			data = datagram.getData();
 		} else {
 			Logger.log(LogLevel.DELIVER,super.name + "[routing error:" + nif.getIPaddr().toString() + "]:" + datagram.toString());
 			Logger.log(LogLevel.DELIVER,nif.getIPaddr().toString());
@@ -80,11 +80,11 @@ public class Host extends Node implements INetworkLayerEntity {
 			
 	}
 	
-	public Segment udt_recv() {
+	public byte[] udt_recv() {
 		
-		Logger.log(LogLevel.UDT,super.name + "[udt_recv]:" + segment.toString());
+		Logger.log(LogLevel.UDT,super.name + "[udt_recv]:" + data.toString());
 		
-		return segment;
+		return data;
 		
 	}
 	

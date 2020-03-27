@@ -2,7 +2,6 @@ package no.hvl.dat110.nfr.examples;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import no.hvl.dat110.nrf.addressing.Segment;
 import no.hvl.dat110.nrf.network.Host;
 
 public class RoutingTestBase {
@@ -24,6 +23,8 @@ public class RoutingTestBase {
 			ex.printStackTrace();
 		}
 		
-		assertEquals(segment12.getPayload(),n2.udt_recv().getPayload());
+		Segment segment = new Segment (new String(n2.udt_recv()));
+		
+		assertEquals(segment12.getPayload(),segment.getPayload());
 	}
 }

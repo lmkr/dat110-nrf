@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import no.hvl.dat110.nrf.addressing.IPAddress;
-import no.hvl.dat110.nrf.addressing.Segment;
 import no.hvl.dat110.nrf.network.Host;
 import no.hvl.dat110.nrf.network.Network;
 import no.hvl.dat110.nrf.network.Router;
