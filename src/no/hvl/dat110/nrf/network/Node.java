@@ -1,6 +1,5 @@
 package no.hvl.dat110.nrf.network;
 
-import java.util.Set;
 
 import no.hvl.dat110.nrf.addressing.Datagram;
 

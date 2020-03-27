@@ -68,6 +68,6 @@ class SimpleNetwork {
 	@Test
 	void testh3h1() {
 
-		RoutingTestBase.test(H1, H3);
+		RoutingTestBase.test(H3, H1);
 	}
 }
