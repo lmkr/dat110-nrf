@@ -2,6 +2,7 @@ package no.hvl.dat110.controlplane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
@@ -20,6 +21,11 @@ public class NetworkGraph {
 	public NetworkGraph(Network network) {
 		graph = new HashMap<Node,ArrayList<Node>>();
 		buildGraph(network);
+	}
+	
+	// TODO : find a better way to do this - use List/Set?
+	public ArrayList<Node> getNodes() {
+		return new ArrayList<Node>(graph.keySet());
 	}
 	
 	public ArrayList<Node> getNeighbours(Node node) {

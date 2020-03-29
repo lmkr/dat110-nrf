@@ -4,17 +4,8 @@ import no.hvl.dat110.nrf.network.Node;
 
 public class LSEntry {
 
-	private Node v;
 	private Node prev;
 	private int d;
-	
-	public Node getV() {
-		return v;
-	}
-
-	public void setV(Node v) {
-		this.v = v;
-	}
 
 	public Node getPrev() {
 		return prev;
@@ -29,15 +20,31 @@ public class LSEntry {
 	}
 
 	public void setD(int d) {
-		d = d;
+		this.d = d;
 	}
 
-	public LSEntry(Node v, Node prev, int d) {
+	public LSEntry(Node prev, int d) {
 		super();
-		this.v = v;
 		this.prev = prev;
-		d = d;
+		this.d = d;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+
+		String prevstr = "-";
+		String dstr = "inf";
+
+		if (prev != null) {
+			prevstr = prev.getName();
+		}
+
+		if (d < Integer.MAX_VALUE) {
+			dstr = Integer.toString(d);
+		}
+
+		return "[" + prevstr + "," + dstr + "]";
+
+	}
+
 }
