@@ -17,6 +17,11 @@ public class NetworkGraph {
 		graph = new HashMap<Node,ArrayList<Node>>();
 	}
 	
+	public NetworkGraph(Network network) {
+		graph = new HashMap<Node,ArrayList<Node>>();
+		buildGraph(network);
+	}
+	
 	public ArrayList<Node> getNeighbours(Node node) {
 		return graph.get(node);
 	}
