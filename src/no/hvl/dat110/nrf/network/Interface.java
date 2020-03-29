@@ -28,6 +28,10 @@ public class Interface extends Stopable {
 		inqueue = new LinkedBlockingQueue<Datagram>();
 	}
 
+	public Node getNode() {
+		return node;
+	}
+	
 	public int getIfId() {
 		return this.id;
 	}

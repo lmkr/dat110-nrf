@@ -8,4 +8,10 @@ public class Logger {
 			System.out.println(message);
 		}
 	}
+	
+	synchronized public static void lg (boolean log,String message) {
+		if (log) {
+			System.out.print(message);
+		}
+	}
 }

@@ -20,6 +20,16 @@ public class Network {
 		links = new ArrayList<Link>();
 	}
 	
+	public ArrayList<Node> getNodes() {
+	
+		return nodes;
+		
+	}
+	
+	public ArrayList<Link> getLinks () {
+		return links;
+	}
+	
 	public void add(Node node) {
 		nodes.add(node);
 	}
