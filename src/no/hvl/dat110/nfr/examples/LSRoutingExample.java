@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import no.hvl.dat110.controlplane.LSRouting;
 import no.hvl.dat110.controlplane.NetworkGraph;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.network.Host;
@@ -91,5 +92,9 @@ class LSRoutingExample {
 		graph.buildGraph(network);
 		graph.printGraph();
 		
+		LSRouting ls = new LSRouting(H1,network);
+		
+		ls.compute();
+	
 	}
 }

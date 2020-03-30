@@ -21,6 +21,8 @@ public class LSRouting {
 
 	private HashMap<Node, LSEntry> current; // TODO: array indexed by node index?
 
+	HashMap<Node,Node> forwardingtable;
+	
 	public LSRouting(Node u, Network network) {
 		this.u = u;
 		
@@ -29,6 +31,7 @@ public class LSRouting {
 
 		graph = new NetworkGraph(network);
 		current = new HashMap<Node, LSEntry>();
+		forwardingtable = new HashMap<Node,Node>();
 	}
 
 	private void showEntries() {
@@ -136,11 +139,62 @@ public class LSRouting {
 		}
 	}
 
+	private Node findNextHop(Node destnode) {
+		
+		Node nexthop = null;
+		Node prevnode = destnode; 
+		
+		Logger.log(LogLevel.GRAPH,destnode.getName());
+		
+		do {
+			
+			nexthop = prevnode;
+			prevnode = current.get(prevnode).getPrev();
+			
+			Logger.log(LogLevel.GRAPH,prevnode.getName() + "->" + nexthop.getName());
+			
+		
+		} while (prevnode != u);
+		
+		return nexthop;
+	}
+	
+	private HashMap<Node,Node> constructForwardingTable() {
+		
+		Nprime.forEach(v ->  {
+			
+			Node nexthop = findNextHop(v);
+			
+			forwardingtable.put(v, nexthop);
+			
+		});
+		
+		return forwardingtable;
+		
+	}
+	
+	private void showForwardingTable() {
+		
+		Logger.log(LogLevel.GRAPH, "Forwarding table");
+		
+		forwardingtable.forEach(
+				(v,nexthop) -> {
+					
+					Logger.log(LogLevel.GRAPH,v.getName() + "->" + nexthop.getName());
+					
+				});
+		
+	}
 	public void compute() {
 
 		init();
 		showEntries();
 		
 		loop();
+		
+		constructForwardingTable();
+		
+		showForwardingTable();
+		
 	}
 }
