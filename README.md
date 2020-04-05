@@ -23,4 +23,11 @@ Network layer routing and forwarding framework
 - (network) interface vs. java interface
 - exercise with the stopable abstraction
 - introduce explicit transport layer with trl_send, trl_deliver?
+- implementere flooding for LS
+- integrasjon med oppdatering av forwarding tabeller + etterfølgend test med å sende datagram igjennom nettverket
+- søtte for dynamicks link endringer
+- støtte for vekte andre en en
+- Gjøre distance vector uavhneeig av nummering 0... for rutere og legge til støtte for hosts som kan ha default route
+- integrere IP addresser inn i turning algorithmer
+
  
