@@ -12,6 +12,7 @@ public class DVRouter extends DynamicRouter {
 	
 	private DVRoutingDaemon daemon;
 
+	// TODO: make DSRouter not having to rely on N
 	public DVRouter(int routerid, int N) {
 		super(routerid);
 		daemon = new DVRoutingDaemon(this, N);
@@ -27,6 +28,14 @@ public class DVRouter extends DynamicRouter {
 		}
 	}
 
+	@Override
+	public void display() {
+		
+		super.display();
+		Logger.log(LogLevel.DV,"DVRouter:" + super.routerid);
+		daemon.display();
+	}
+	
 	@Override
 	public void start() {
 

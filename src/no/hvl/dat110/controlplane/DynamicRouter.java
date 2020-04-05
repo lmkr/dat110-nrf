@@ -8,7 +8,7 @@ import no.hvl.dat110.nrf.network.Router;
 
 public abstract class DynamicRouter extends Router {
 
-	private int routerid;
+	protected int routerid;
 	
 	public DynamicRouter(int routerid) {
 		super(routerid);

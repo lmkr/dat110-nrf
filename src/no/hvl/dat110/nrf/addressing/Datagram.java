@@ -15,6 +15,7 @@ public class Datagram {
 		this.source = source;
 		this.destination = destination;
 		this.data = data;
+		this.type = type;
 
 		id++;
 	}
@@ -24,6 +25,7 @@ public class Datagram {
 		this.source = source;
 		this.destination = destination;
 		this.data = data;
+		this.type = type;
 		this.identifier = id;
 	}
 	

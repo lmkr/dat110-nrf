@@ -41,19 +41,31 @@ public class DVRoutingExample {
 		// communication links
 		network.connect(R0, 1, R1, 1);
 		network.connect(R1, 2, R2, 1);
-		
+	
+		network.start();
+		network.display();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 
 		network.stop();
+		network.display();
 	}
 	
 	@Test
 	void test() {
 		
-		network.start();
+		try {
+			
+			// let the routing run for a while
+			Thread.sleep(5000);
+			
+		} catch (InterruptedException ex) {
+
+			System.out.println("Main test thread - example network " + ex.getMessage());
+			ex.printStackTrace();
+		}
 	
 	}
 }

@@ -19,4 +19,8 @@ public class DVEntry {
 	public int getDistance() {
 		return dist;
 	}
+	
+	public int getNexthop() {
+		return nexthop;
+	}
 }

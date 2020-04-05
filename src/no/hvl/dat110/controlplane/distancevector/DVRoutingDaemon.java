@@ -2,6 +2,8 @@ package no.hvl.dat110.controlplane.distancevector;
 
 import no.hvl.dat110.controlplane.DynamicRouter;
 import no.hvl.dat110.nrf.addressing.DatagramType;
+import no.hvl.dat110.nrf.common.LogLevel;
+import no.hvl.dat110.nrf.common.Logger;
 import no.hvl.dat110.nrf.common.Stopable;
 
 import com.google.gson.*;
@@ -36,6 +38,14 @@ public class DVRoutingDaemon extends Stopable {
 
 	}
 
+	public void display() {
+		
+		for (int i = 0; i<ftable.length; i++) {
+			DVEntry dventry = ftable[i];
+			Logger.log(LogLevel.DV, i + "|" + dventry.getDistance() + "|" + dventry.getNexthop());
+		}
+	}
+	
 	private void update(int dest, int[] dv) {
 
 		for (int i = 0; i < ftable.length; i++) {
@@ -76,20 +86,21 @@ public class DVRoutingDaemon extends Stopable {
 
 		try {
 			// let the forwarding of the segment take place
-			Thread.sleep(5000);
+			Thread.sleep(100);
 
 		} catch (InterruptedException ex) {
 
-			System.out.println("Main test thread - example network " + ex.getMessage());
+			System.out.println("Main thread - DV router daemon " + ex.getMessage());
 			ex.printStackTrace();
 		}
 	}
 
 	// will be invoked whenever there is a distance vecrot is received from a
 	// neighbour
-	public void dv_recv(byte[] payload) {
+	public void dv_recv(byte[] data) {
 
-		String jsonmsg = new String(payload);
+		Logger.log(LogLevel.DV, "DV_recv:" + router.getName());
+		String jsonmsg = new String(data);
 
 		JsonParser jsonParser = new JsonParser();
 		JsonObject json = jsonParser.parse(jsonmsg).getAsJsonObject();
