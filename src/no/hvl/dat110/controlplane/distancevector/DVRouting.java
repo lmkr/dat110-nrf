@@ -1,9 +1,8 @@
 package no.hvl.dat110.controlplane.distancevector;
 
+import no.hvl.dat110.controlplane.DynamicRouter;
 import no.hvl.dat110.nrf.addressing.DatagramType;
 import no.hvl.dat110.nrf.common.Stopable;
-import no.hvl.dat110.nrf.network.Node;
-import no.hvl.dat110.nrf.network.Router;
 
 import com.google.gson.*;
 
@@ -11,21 +10,27 @@ public class DVRouting extends Stopable {
 
 	private static int INF = Integer.MAX_VALUE;
 
-	private Router router;
+	private DynamicRouter router;
 
 	private DVEntry[] ftable; // forwarding table
 
-	public DVRouting(Router router, int N) {
+	public DVRouting(DynamicRouter router, int N) {
 		super("DV:" + router.getName());
 		this.router = router;
 
 		ftable = new DVEntry[N];
 
 		for (int i = 0; i < N; i++) {
-			int dist = -1;
-
-			// TODO: if it is the node itslef, then distance is 0
-			ftable[i] = new DVEntry(INF, dist);
+			
+			int dist = INF;
+			int nexthop = -1;
+			
+			if (i == router.getId()) {
+				dist = 0;
+				nexthop = i;
+			}
+			
+			ftable[i] = new DVEntry(dist, nexthop);
 		}
 
 	}
@@ -52,8 +57,7 @@ public class DVRouting extends Stopable {
 			vector[i] = ftable[i].getDistance();
 		}
 
-		// TODO: fix node id
-		DV dv = new DV(0, vector);
+		DV dv = new DV(router.getId(), vector);
 
 		return dv;
 
@@ -80,7 +84,6 @@ public class DVRouting extends Stopable {
 		}
 	}
 
-	// TODO: where to do the json conversion?
 	// will be invoked whenever there is a distance vecrot is received from a
 	// neighbour
 	public void dv_recv(byte[] payload) {

@@ -1,6 +1,7 @@
 package no.hvl.dat110.nrf.network;
 
 import no.hvl.dat110.nrf.addressing.Datagram;
+import no.hvl.dat110.nrf.addressing.DatagramType;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
@@ -10,8 +11,8 @@ public class Host extends Node implements INetworkLayerEntity {
 	private Interface nif;
 	byte[] data = null;
 	
-	public Host(String name) {
-		super(name);
+	public Host(int hostid) {
+		super("H" + hostid);
 	}
 	
 	public void ifconfig(int id, IPAddress addr) {
@@ -67,7 +68,7 @@ public class Host extends Node implements INetworkLayerEntity {
 	public void udt_send(byte[] data, IPAddress destip) {
 		
 		// encapsulate segment from host into datagram
-		Datagram datagram = new Datagram(nif.getIPaddr(),destip,data);
+		Datagram datagram = new Datagram(nif.getIPaddr(),destip,DatagramType.TR,data);
 			
 		Logger.log(LogLevel.UDT,super.name + "[udt_send]:" + datagram.toString());
 			

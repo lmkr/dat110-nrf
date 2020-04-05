@@ -1,10 +1,8 @@
 package no.hvl.dat110.nrf.network;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
 
 import no.hvl.dat110.nrf.addressing.Datagram;
-import no.hvl.dat110.nrf.addressing.DatagramType;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
@@ -12,12 +10,12 @@ import no.hvl.dat110.nrf.dataplane.ForwardingTable;
 
 public class Router extends Node {
 
-	private ArrayList<Interface> interfaces;
+	protected ArrayList<Interface> interfaces;
 
 	protected ForwardingTable forwardingtable;
 
-	public Router(String name) {
-		super(name);
+	public Router(int routerid) {
+		super("R" + routerid);
 		interfaces = new ArrayList<Interface>();
 		forwardingtable = new ForwardingTable();
 	}
@@ -84,19 +82,6 @@ public class Router extends Node {
 		forward(datagram);
 	}
 
-	public void broadcastAllInterfaces(DatagramType type, byte[] data) {
-		
-		// TODO: need to set type
-		for (Interface intface : interfaces) {
-			
-			IPAddress ipsrc = intface.getIPaddr();
-			IPAddress ipdest = intface.getPort().getOutgoing().getDest().getIPaddr();
-			
-			Datagram datagram = new Datagram(ipsrc, ipdest, data);
-			intface.transmit(datagram);
-		}
-	}
-	
 	private void forward(Datagram datagram) {
 		
 		IPAddress dest = datagram.getDestination();

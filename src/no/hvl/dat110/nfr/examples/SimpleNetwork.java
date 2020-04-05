@@ -24,17 +24,17 @@ class SimpleNetwork {
 		network = new Network("Example Network");
 
 		// hosts
-		H1 = new Host("H1");
+		H1 = new Host(1);
 		H1.ifconfig(1, new IPAddress("1.2.1.1"));
 
-		H3 = new Host("H3");
+		H3 = new Host(3);
 		H3.ifconfig(1, new IPAddress("2.1.3.1"));
 
 		network.add(H1);
 		network.add(H3);
 
 		// routers
-		R2 = new Router("R2");
+		R2 = new Router(2);
 		R2.ifconfig(1, new IPAddress("1.2.2.1"));
 		R2.ifconfig(2, new IPAddress("2.1.2.2"));
 
