@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import no.hvl.dat110.nrf.addressing.Datagram;
+import no.hvl.dat110.nrf.addressing.DatagramType;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
@@ -78,9 +79,24 @@ public class Router extends Node {
 	public void deliver(Datagram datagram) {
 		
 		Logger.log(LogLevel.DELIVER,super.name + "[deliver]:" + datagram.toString());
+		
+		// TODO: need to check on type to deliver correctly - may not be forward
 		forward(datagram);
 	}
 
+	public void broadcastAllInterfaces(DatagramType type, byte[] data) {
+		
+		// TODO: need to set type
+		for (Interface intface : interfaces) {
+			
+			IPAddress ipsrc = intface.getIPaddr();
+			IPAddress ipdest = intface.getPort().getOutgoing().getDest().getIPaddr();
+			
+			Datagram datagram = new Datagram(ipsrc, ipdest, data);
+			intface.transmit(datagram);
+		}
+	}
+	
 	private void forward(Datagram datagram) {
 		
 		IPAddress dest = datagram.getDestination();

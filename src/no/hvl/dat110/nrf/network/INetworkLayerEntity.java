@@ -1,6 +1,5 @@
 package no.hvl.dat110.nrf.network;
 
-import no.hvl.dat110.nfr.examples.Segment;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 
 public interface INetworkLayerEntity {

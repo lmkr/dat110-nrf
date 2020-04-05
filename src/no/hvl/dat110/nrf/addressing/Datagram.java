@@ -1,7 +1,5 @@
 package no.hvl.dat110.nrf.addressing;
 
-import java.util.Arrays;
-
 public class Datagram {
 
 	static int id = 1;

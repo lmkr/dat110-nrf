@@ -1,9 +1,5 @@
 package no.hvl.dat110.nrf.network;
 
-import java.util.ArrayList;
-import java.util.Set;
-
-import no.hvl.dat110.nfr.examples.Segment;
 import no.hvl.dat110.nrf.addressing.Datagram;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.common.LogLevel;

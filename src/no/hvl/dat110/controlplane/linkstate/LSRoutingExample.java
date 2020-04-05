@@ -1,11 +1,9 @@
-package no.hvl.dat110.nfr.examples;
+package no.hvl.dat110.controlplane.linkstate;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import no.hvl.dat110.controlplane.linkstate.LSRouting;
-import no.hvl.dat110.controlplane.linkstate.NetworkGraph;
 import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.network.Host;
 import no.hvl.dat110.nrf.network.Network;
