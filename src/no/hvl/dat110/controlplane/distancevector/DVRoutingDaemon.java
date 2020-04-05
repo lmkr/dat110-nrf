@@ -10,7 +10,7 @@ import com.google.gson.*;
 
 public class DVRoutingDaemon extends Stopable {
 
-	private static int INF = Integer.MAX_VALUE;
+	private static int INF = 1000; // TODO: fix proper handling of INF-distance
 
 	private DynamicRouter router;
 
