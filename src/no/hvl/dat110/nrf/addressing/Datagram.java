@@ -39,6 +39,9 @@ public class Datagram {
 		return data;
 	}
 	
+	public DatagramType getType() {
+		return type;
+	}
 	
 	@Override
 	public String toString() {

@@ -6,7 +6,7 @@ import no.hvl.dat110.nrf.common.Stopable;
 
 import com.google.gson.*;
 
-public class DVRouting extends Stopable {
+public class DVRoutingDaemon extends Stopable {
 
 	private static int INF = Integer.MAX_VALUE;
 
@@ -14,7 +14,8 @@ public class DVRouting extends Stopable {
 
 	private DVEntry[] ftable; // forwarding table
 
-	public DVRouting(DynamicRouter router, int N) {
+	public DVRoutingDaemon(DynamicRouter router, int N) {
+		
 		super("DV:" + router.getName());
 		this.router = router;
 
