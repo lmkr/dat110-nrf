@@ -1,4 +1,4 @@
-package no.hvl.dat110.controlplane;
+package no.hvl.dat110.controlplane.linkstate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
