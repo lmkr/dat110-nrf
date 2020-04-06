@@ -60,7 +60,7 @@ public class DVRoutingDaemon extends Stopable {
 		}
 	}
 
-	private DV DVEntrytoDV() {
+	private DVMsg DVEntrytoDV() {
 
 		int vector[] = new int[ftable.length];
 
@@ -68,7 +68,7 @@ public class DVRoutingDaemon extends Stopable {
 			vector[i] = ftable[i].getDistance();
 		}
 
-		DV dv = new DV(router.getId(), vector);
+		DVMsg dv = new DVMsg(router.getId(), vector);
 
 		return dv;
 
@@ -76,7 +76,7 @@ public class DVRoutingDaemon extends Stopable {
 
 	public void doProcess() {
 
-		DV dv = DVEntrytoDV();
+		DVMsg dv = DVEntrytoDV();
 
 		Gson gson = new Gson();
 
@@ -106,7 +106,7 @@ public class DVRoutingDaemon extends Stopable {
 		JsonObject json = jsonParser.parse(jsonmsg).getAsJsonObject();
 		Gson gson = new Gson();
 
-		DV dv = gson.fromJson(json, DV.class);
+		DVMsg dv = gson.fromJson(json, DVMsg.class);
 
 		int dest = dv.getNode();
 		int[] vector = dv.getVector();

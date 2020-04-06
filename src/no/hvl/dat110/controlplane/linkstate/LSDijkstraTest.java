@@ -9,7 +9,7 @@ import no.hvl.dat110.nrf.network.Host;
 import no.hvl.dat110.nrf.network.Network;
 import no.hvl.dat110.nrf.network.Router;
 
-class LSRoutingExample {
+class LSDijkstraTest {
 
 	private Network network;
 	private Host H1,H4;

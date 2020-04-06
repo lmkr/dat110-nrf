@@ -16,6 +16,7 @@ public abstract class DynamicRouter extends Router {
 	}
 	
 	// TODO: also needs routingdaemon adn an object variable
+	// + collect common parts betwen DV and LS into this class
 	
 	public int getId() {
 		return routerid;

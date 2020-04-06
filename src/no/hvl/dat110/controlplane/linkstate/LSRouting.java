@@ -12,7 +12,10 @@ import no.hvl.dat110.nrf.network.Node;
 public class LSRouting {
 
 	// node for which the routing algorithm is executed
-
+	// TODO. change this such that it implement the algorithm using int as nodes - perhaps using generics?
+	// make it support both online and office line use such that it can be tested in isolation and still work 
+	// as part of the LSDaemon.
+	
 	private Node u;
 	private NetworkGraph graph;
 

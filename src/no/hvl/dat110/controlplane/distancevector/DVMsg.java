@@ -1,6 +1,6 @@
 package no.hvl.dat110.controlplane.distancevector;
 
-public class DV {
+public class DVMsg {
 
 	// distance vector exchanged between nodes
 	// distance to node i is placed at index i
@@ -8,7 +8,7 @@ public class DV {
 	private int node;
 	private int[] vector;
 	
-	public DV(int node, int[] vector) {
+	public DVMsg(int node, int[] vector) {
 		this.vector = vector;
 		this.node = node;
 	}	
