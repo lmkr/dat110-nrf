@@ -18,10 +18,22 @@ public abstract class Stopable extends Thread {
 
 	}
 
+	public void starting() {
+		
+	}
+	
+	public void stopping() {
+		
+	}
+
 	public abstract void doProcess();
 	
 	public void run() {
 
+		System.out.println(name + " starting");
+		
+		starting();
+		
 		System.out.println(name + " running");
 		
 		while (doCont()) {
@@ -32,5 +44,8 @@ public abstract class Stopable extends Thread {
 
 		System.out.println(name + " stopping");
 
+		starting();
+		
+		System.out.println(name + " stopped");
 	}
 }
