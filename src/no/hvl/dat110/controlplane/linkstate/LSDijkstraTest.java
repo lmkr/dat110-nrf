@@ -90,7 +90,7 @@ class LSDijkstraTest {
 		graph.buildGraph(network);
 		graph.printGraph();
 		
-		LSRouting ls = new LSRouting(H1,network);
+		LSDijkstra ls = new LSDijkstra(H1,network);
 		
 		ls.compute();
 	

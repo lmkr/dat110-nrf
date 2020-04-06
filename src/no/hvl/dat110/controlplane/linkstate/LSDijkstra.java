@@ -9,7 +9,7 @@ import no.hvl.dat110.nrf.common.Logger;
 import no.hvl.dat110.nrf.network.Network;
 import no.hvl.dat110.nrf.network.Node;
 
-public class LSRouting {
+public class LSDijkstra {
 
 	// node for which the routing algorithm is executed
 	// TODO. change this such that it implement the algorithm using int as nodes - perhaps using generics?
@@ -26,7 +26,7 @@ public class LSRouting {
 
 	HashMap<Node,Node> forwardingtable;
 	
-	public LSRouting(Node u, Network network) {
+	public LSDijkstra(Node u, Network network) {
 		this.u = u;
 		
 		Nprime = new ArrayList<Node>();
