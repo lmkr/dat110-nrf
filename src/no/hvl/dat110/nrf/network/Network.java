@@ -1,9 +1,6 @@
 package no.hvl.dat110.nrf.network;
 
 import java.util.ArrayList;
-import java.util.Set;
-
-import no.hvl.dat110.nrf.addressing.IPAddress;
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
 
@@ -24,6 +21,15 @@ public class Network {
 	
 		return nodes;
 		
+	}
+	
+	public ArrayList<Integer> getNids () {
+		
+		ArrayList<Integer> nids = new ArrayList<Integer>();
+		
+		nodes.forEach(node -> nids.add(node.nid));
+		
+		return nids;
 	}
 	
 	public ArrayList<Link> getLinks () {

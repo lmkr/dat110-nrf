@@ -28,7 +28,7 @@ public class DVRoutingDaemon extends Stopable {
 			int dist = INF;
 			int nexthop = -1;
 			
-			if (i == router.getId()) {
+			if (i == router.nid) {
 				dist = 0;
 				nexthop = i;
 			}
@@ -68,7 +68,7 @@ public class DVRoutingDaemon extends Stopable {
 			vector[i] = ftable[i].getDistance();
 		}
 
-		DVMsg dv = new DVMsg(router.getId(), vector);
+		DVMsg dv = new DVMsg(router.nid, vector);
 
 		return dv;
 

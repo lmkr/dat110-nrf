@@ -32,7 +32,7 @@ public class DVRouter extends DynamicRouter {
 	public void display() {
 		
 		super.display();
-		Logger.log(LogLevel.DV,"DVRouter:" + super.routerid);
+		Logger.log(LogLevel.DV,"DVRouter:" + super.nid);
 		daemon.display();
 	}
 	

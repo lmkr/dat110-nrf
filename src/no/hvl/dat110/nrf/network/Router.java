@@ -15,7 +15,7 @@ public class Router extends Node {
 	protected ForwardingTable forwardingtable;
 
 	public Router(int routerid) {
-		super("R" + routerid);
+		super("R" + routerid,routerid);
 		interfaces = new ArrayList<Interface>();
 		forwardingtable = new ForwardingTable();
 	}

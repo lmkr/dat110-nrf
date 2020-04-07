@@ -2,20 +2,20 @@ package no.hvl.dat110.controlplane.linkstate;
 
 public class LSNeighbourMsg {
 
-	private int node;
-	private int[] neighbours;
+	private Integer node;
+	private Integer[] neighbours;
 	
-	public LSNeighbourMsg(int node, int[] neighbours) {
+	public LSNeighbourMsg(Integer node, Integer[] neighbours) {
 		super();
 		this.node = node;
 		this.neighbours = neighbours;
 	}
 
-	public int getNode() {
+	public Integer getNode() {
 		return node;
 	}
 
-	public int[] getNeighbours() {
+	public Integer[] getNeighbours() {
 		return neighbours;
 	}
 	

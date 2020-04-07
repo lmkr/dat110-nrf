@@ -33,7 +33,7 @@ public class LSRouter extends DynamicRouter {
 	public void display() {
 		
 		super.display();
-		Logger.log(LogLevel.LS,"LSRouter:" + super.routerid);
+		Logger.log(LogLevel.LS,"LSRouter:" + super.nid);
 		daemon.display();
 	}
 	

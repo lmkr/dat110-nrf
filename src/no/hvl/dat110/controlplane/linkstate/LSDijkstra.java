@@ -16,34 +16,33 @@ public class LSDijkstra {
 	// make it support both online and office line use such that it can be tested in isolation and still work 
 	// as part of the LSDaemon.
 	
-	private Node u;
+	private Integer u;
 	private NetworkGraph graph;
 
-	private ArrayList<Node> Nprime;
-	private ArrayList<Node> N;
+	private ArrayList<Integer> Nprime;
+	private ArrayList<Integer> N;
 
-	private HashMap<Node, LSEntry> current; // TODO: array indexed by node index?
+	private HashMap<Integer, LSEntry> current; // TODO: array indexed by node index?
 
-	HashMap<Node,Node> forwardingtable;
+	HashMap<Integer,Integer> forwardingtable;
 	
-	public LSDijkstra(Node u, Network network) {
+	public LSDijkstra(Integer u, NetworkGraph graph) {
 		this.u = u;
-		
-		Nprime = new ArrayList<Node>();
-		N = new ArrayList<Node>(network.getNodes()); // TODO: change to using priority queue on distance
 
-		graph = new NetworkGraph(network);
-		current = new HashMap<Node, LSEntry>();
-		forwardingtable = new HashMap<Node,Node>();
+		Nprime = new ArrayList<Integer>();
+		N = new ArrayList<Integer>(graph.getNodes()); // TODO: change to using priority queue on distance
+
+		this.graph = graph;
+		current = new HashMap<Integer, LSEntry>();
+		forwardingtable = new HashMap<Integer,Integer>();
 	}
 
 	private void showEntries() {
 
-		// TODO: sort by node
 		current.forEach((v, entry) ->
 
 		{
-			Logger.lg(LogLevel.GRAPH, v.getName() + entry.toString());
+			Logger.lg(LogLevel.GRAPH, v + entry.toString());
 
 		});
 
@@ -57,19 +56,18 @@ public class LSDijkstra {
 
 		current.put(u,new LSEntry(u,0));
 		
-		// TODO: use set for neighbours?
-		ArrayList<Node> neighbours = graph.getNeighbours(u);
+		ArrayList<Integer> neighbours = graph.getNeighbours(u);
 
 		N.forEach(v -> {
 
 			int d = 1;
-			Node prev = u;
+			int prev = u;
 			
 			LSEntry entry;
 
 			if (!neighbours.contains(v)) {
 				d = Integer.MAX_VALUE; // infinity
-				prev = null;
+				prev = 0;
 			}
 
 			entry = new LSEntry(prev, d);
@@ -78,18 +76,18 @@ public class LSDijkstra {
 
 	}
 
-	private Node findMinNodeN() {
+	private Integer findMinNodeN() {
 		
 		assert(N.size() != 0); // assume not-empty since the method is called
 		
-		Node n = N.get(0); 
+		Integer n = N.get(new Integer(0)); // TODO: check
 		int minD =  current.get(n).getD();
 		
-		Iterator<Node> it = N.iterator();
+		Iterator<Integer> it = N.iterator();
 		
 		while (it.hasNext()) {
 		
-			Node v = it.next();
+			Integer v = it.next();
 			LSEntry ventry = current.get(v);
 			
 			if (ventry.getD() < minD) {
@@ -106,19 +104,20 @@ public class LSDijkstra {
 
 		while (N.size() > 0) {
 
-			Node w = findMinNodeN();
+			Integer w = findMinNodeN();
 
-			Logger.log(LogLevel.GRAPH,"SELECT:" + w.getName());
+			Logger.log(LogLevel.GRAPH,"SELECT:" + w);
 			
 			// move node from N to Nprime
 			Nprime.add(w);
+			
 			N.remove(w);
 
 			graph.getNeighbours(w).forEach(v -> {
 
 				if (!Nprime.contains(v)) {
 
-					Logger.lg(LogLevel.GRAPH, "CHECK: " + v.getName() + "");
+					Logger.lg(LogLevel.GRAPH, "CHECK: " + v + "");
 					
 					int Dw = current.get(w).getD();
 
@@ -142,19 +141,19 @@ public class LSDijkstra {
 		}
 	}
 
-	private Node findNextHop(Node destnode) {
+	private int findNextHop(int destnode) {
 		
-		Node nexthop = null;
-		Node prevnode = destnode; 
+		int nexthop = 0;
+		int prevnode = destnode; 
 		
-		Logger.log(LogLevel.GRAPH,destnode.getName());
+		Logger.log(LogLevel.GRAPH,Integer.toString(destnode));
 		
 		do {
 			
 			nexthop = prevnode;
 			prevnode = current.get(prevnode).getPrev();
 			
-			Logger.log(LogLevel.GRAPH,prevnode.getName() + "->" + nexthop.getName());
+			Logger.log(LogLevel.GRAPH,prevnode + "->" + nexthop);
 			
 		
 		} while (prevnode != u);
@@ -162,11 +161,11 @@ public class LSDijkstra {
 		return nexthop;
 	}
 	
-	private HashMap<Node,Node> constructForwardingTable() {
+	private HashMap<Integer,Integer> constructForwardingTable() {
 		
 		Nprime.forEach(v ->  {
 			
-			Node nexthop = findNextHop(v);
+			int nexthop = findNextHop(v);
 			
 			forwardingtable.put(v, nexthop);
 			
@@ -183,7 +182,7 @@ public class LSDijkstra {
 		forwardingtable.forEach(
 				(v,nexthop) -> {
 					
-					Logger.log(LogLevel.GRAPH,v.getName() + "->" + nexthop.getName());
+					Logger.log(LogLevel.GRAPH,v + "->" + nexthop);
 					
 				});
 		
@@ -191,6 +190,7 @@ public class LSDijkstra {
 	public void compute() {
 
 		init();
+		
 		showEntries();
 		
 		loop();

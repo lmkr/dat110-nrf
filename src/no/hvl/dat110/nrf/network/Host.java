@@ -12,7 +12,7 @@ public class Host extends Node implements INetworkLayerEntity {
 	byte[] data = null;
 	
 	public Host(int hostid) {
-		super("H" + hostid);
+		super("H" + hostid,hostid);
 	}
 	
 	public void ifconfig(int id, IPAddress addr) {

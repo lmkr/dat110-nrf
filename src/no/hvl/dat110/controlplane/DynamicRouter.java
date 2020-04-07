@@ -1,5 +1,7 @@
 package no.hvl.dat110.controlplane;
 
+import java.util.ArrayList;
+
 import no.hvl.dat110.nrf.addressing.Datagram;
 import no.hvl.dat110.nrf.addressing.DatagramType;
 import no.hvl.dat110.nrf.addressing.IPAddress;
@@ -7,19 +9,26 @@ import no.hvl.dat110.nrf.network.Interface;
 import no.hvl.dat110.nrf.network.Router;
 
 public abstract class DynamicRouter extends Router {
-
-	protected int routerid;
 	
 	public DynamicRouter(int routerid) {
 		super(routerid);
-		this.routerid = routerid;
+		nid = routerid;
 	}
 	
-	// TODO: also needs routingdaemon adn an object variable
-	// + collect common parts betwen DV and LS into this class
+	// TODO: collect common parts in LS and DV Routers
+	// TODO: collect common parts in LS and DV routing daemons
 	
-	public int getId() {
-		return routerid;
+	public ArrayList<Integer> getNeighbours() {
+		
+		ArrayList<Integer> neighbours = new ArrayList<Integer>();
+		
+		for (Interface intface : interfaces) {
+			
+			Integer nid = intface.getPort().getOutgoing().getDest().getNode().nid;
+			neighbours.add(nid);
+		}
+		
+		return neighbours;
 	}
 	
 	public void broadcastAllInterfaces(DatagramType type, byte[] data) {

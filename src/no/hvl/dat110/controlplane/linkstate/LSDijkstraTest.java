@@ -85,12 +85,11 @@ class LSDijkstraTest {
 	@Test
 	void test() {
 
-		NetworkGraph graph = new NetworkGraph();
+		NetworkGraph graph = new NetworkGraph(network);
 		
-		graph.buildGraph(network);
 		graph.printGraph();
 		
-		LSDijkstra ls = new LSDijkstra(H1,network);
+		LSDijkstra ls = new LSDijkstra(1,graph);
 		
 		ls.compute();
 	
