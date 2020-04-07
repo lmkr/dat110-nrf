@@ -10,47 +10,70 @@ import com.google.gson.*;
 
 public class DVRoutingDaemon extends Stopable {
 
-	private static int INF = 1000; // TODO: fix proper handling of INF-distance
-
+	private static int INF = 10000; // TODO: 10000 is considered infinite distance 
+	private static int NONEXTHOP = -1; // value used for when not having a next hop
+	
 	private DynamicRouter router;
 
-	private DVEntry[] ftable; // forwarding table
+	private DVEntry[] distancevector; 
 
 	public DVRoutingDaemon(DynamicRouter router, int N) {
 		
 		super("DV:" + router.getName());
 		this.router = router;
 
-		ftable = new DVEntry[N];
+		distancevector = new DVEntry[N];
+	}
 
-		for (int i = 0; i < N; i++) {
+	@Override
+	public void starting() {
+		
+		// setup initial distance vector for router
+		for (int i = 0; i < distancevector.length; i++) {
 			
 			int dist = INF;
-			int nexthop = -1;
+			int nexthop = NONEXTHOP;
 			
-			if (i == router.nid) {
+			if (i == router.nid) { // next-hop to the node itself is known
 				dist = 0;
 				nexthop = i;
 			}
 			
-			ftable[i] = new DVEntry(dist, nexthop);
-		}
-
-	}
-
-	public void display() {
-		
-		for (int i = 0; i<ftable.length; i++) {
-			DVEntry dventry = ftable[i];
-			Logger.log(LogLevel.DV, i + "|" + dventry.getDistance() + "|" + dventry.getNexthop());
+			distancevector[i] = new DVEntry(dist, nexthop);
 		}
 	}
 	
-	private void update(int dest, int[] dv) {
+	public void display() {
+		
+		Logger.log(LogLevel.DV,"Distance Vector (dest | distance | next-hop)");
+		
+		
+		for (int i = 0; i<distancevector.length; i++) {
+			
+			DVEntry dventry = distancevector[i];
+			
+			int dist = dventry.getDistance();
+			int nexthop = dventry.getNexthop();
+					
+			String distStr = Integer.toString(dist);
+			if (dist == INF) {
+				distStr = "INF";
+			}
+			
+			String nexthopStr = Integer.toString(nexthop);
+			if (nexthop == NONEXTHOP) {
+				nexthopStr = "-";
+			}
+			
+			Logger.log(LogLevel.DV, i + " | " + distStr + " | " + nexthopStr);
+		}
+	}
+	
+	private void updateDV(int dest, int[] dv) {
 
-		for (int i = 0; i < ftable.length; i++) {
+		for (int i = 0; i < distancevector.length; i++) {
 
-			DVEntry dventry = ftable[i];
+			DVEntry dventry = distancevector[i];
 
 			if (dventry.getDistance() > dv[i] + 1) {
 
@@ -60,12 +83,12 @@ public class DVRoutingDaemon extends Stopable {
 		}
 	}
 
-	private DVMsg DVEntrytoDV() {
+	private DVMsg DistanceVectortoDVMsg() {
 
-		int vector[] = new int[ftable.length];
+		int vector[] = new int[distancevector.length];
 
-		for (int i = 0; i < ftable.length; i++) {
-			vector[i] = ftable[i].getDistance();
+		for (int i = 0; i < distancevector.length; i++) {
+			vector[i] = distancevector[i].getDistance();
 		}
 
 		DVMsg dv = new DVMsg(router.nid, vector);
@@ -76,11 +99,7 @@ public class DVRoutingDaemon extends Stopable {
 
 	public void doProcess() {
 
-		DVMsg dv = DVEntrytoDV();
-
-		Gson gson = new Gson();
-
-		byte[] data = gson.toJson(dv).getBytes();
+		byte[] data = convertDVToJson();
 
 		router.broadcastAllInterfaces(DatagramType.DV, data);
 
@@ -95,23 +114,39 @@ public class DVRoutingDaemon extends Stopable {
 		}
 	}
 
-	// will be invoked whenever there is a distance vecrot is received from a
-	// neighbour
-	public void dv_recv(byte[] data) {
+	private byte[] convertDVToJson() {
+		
+		DVMsg dv = DistanceVectortoDVMsg();
 
-		Logger.log(LogLevel.DV, "DV_recv:" + router.getName());
+		Gson gson = new Gson();
+
+		byte[] data = gson.toJson(dv).getBytes();
+		
+		return data;
+	}
+	
+	private DVMsg convertDVFromJson(byte[] data) {
+	
 		String jsonmsg = new String(data);
 
 		JsonParser jsonParser = new JsonParser();
 		JsonObject json = jsonParser.parse(jsonmsg).getAsJsonObject();
 		Gson gson = new Gson();
 
-		DVMsg dv = gson.fromJson(json, DVMsg.class);
+		DVMsg dvmsg = gson.fromJson(json, DVMsg.class);
+		
+		return dvmsg;
+	}
+	
+	// invoked when a distance vector is received from a neighbour
+	public void dv_recv(byte[] data) {
+
+		DVMsg dv = convertDVFromJson(data);		
 
 		int dest = dv.getNode();
 		int[] vector = dv.getVector();
 
-		update(dest, vector);
+		updateDV(dest, vector);
 
 	}
 }

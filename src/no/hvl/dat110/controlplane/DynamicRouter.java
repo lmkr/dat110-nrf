@@ -33,7 +33,6 @@ public abstract class DynamicRouter extends Router {
 	
 	public void broadcastAllInterfaces(DatagramType type, byte[] data) {
 		
-		// TODO: need to set type
 		for (Interface intface : interfaces) {
 			
 			IPAddress ipsrc = intface.getIPaddr();

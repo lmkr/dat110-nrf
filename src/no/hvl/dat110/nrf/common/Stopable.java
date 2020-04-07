@@ -44,7 +44,7 @@ public abstract class Stopable extends Thread {
 
 		Logger.log(LogLevel.STARTSTOP,name + " stopping");
 
-		starting();
+		stopping();
 		
 		Logger.log(LogLevel.STARTSTOP,name + " stopped");
 	}

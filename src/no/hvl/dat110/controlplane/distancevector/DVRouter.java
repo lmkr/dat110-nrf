@@ -9,10 +9,10 @@ import no.hvl.dat110.nrf.common.Logger;
 public class DVRouter extends DynamicRouter {
 
 	// TODO: perhaps some of this could be moved into DynamicRouter
+	// TODO: make DSRouter not having to rely on N
 	
 	private DVRoutingDaemon daemon;
 
-	// TODO: make DSRouter not having to rely on N
 	public DVRouter(int routerid, int N) {
 		super(routerid);
 		daemon = new DVRoutingDaemon(this, N);
@@ -31,8 +31,7 @@ public class DVRouter extends DynamicRouter {
 	@Override
 	public void display() {
 		
-		super.display();
-		Logger.log(LogLevel.DV,"DVRouter:" + super.nid);
+		Logger.log(LogLevel.DV,"Router:" + super.getName());
 		daemon.display();
 	}
 	
