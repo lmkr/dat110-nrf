@@ -25,12 +25,17 @@ public class LSRoutingDaemon extends Stopable {
 	
 	private int N;
 	
+	private LSDijkstra ls; 
+	
 	public LSRoutingDaemon(DynamicRouter router, int N) {
-		super("DV:" + router.getName());
-		nodes = new HashSet<Integer>();
+		super("LS:" + router.getName());
+		
+		this.nodes = new HashSet<Integer>();
 		this.router = router;
 		this.graph = new NetworkGraph();
 		this.N = N;
+		this.ls = new LSDijkstra(router.nid,graph);
+		this.recvqueue = new LinkedBlockingQueue<LSNeighbourMsg>();
 	}
 	
 
@@ -71,6 +76,8 @@ public class LSRoutingDaemon extends Stopable {
 				
 				if (!nodes.contains(nid)) {
 					
+					nodes.add(nid);
+					
 					Integer[] neighbours = msg.getNeighbours();
 					graph.addNode(nid);
 					graph.addNeighbours(nid, neighbours);
@@ -95,17 +102,18 @@ public class LSRoutingDaemon extends Stopable {
 		}
 	}
 	
+	@Override
 	public void stopping () {
-	
-		LSDijkstra ls = new LSDijkstra(router.nid,graph);
-		
+			
 		ls.compute();
+		
+		ls.constructForwardingTable();
+		
 	}
 	
 	
 	public void ls_recv(byte[] data) {
 		
-		Logger.log(LogLevel.DV, "LS_recv:" + router.getName());
 		String jsonmsg = new String(data);
 
 		JsonParser jsonParser = new JsonParser();
@@ -127,7 +135,7 @@ public class LSRoutingDaemon extends Stopable {
 	public void display() {
 		
 		graph.display();
-		
+		ls.displayForwardingTable();
 	}
 
 }
