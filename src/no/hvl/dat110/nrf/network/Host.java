@@ -8,8 +8,9 @@ import no.hvl.dat110.nrf.common.Logger;
 
 public class Host extends Node implements INetworkLayerEntity {
 	
-	private Interface nif;
-	byte[] data = null;
+	private Interface nif; // a host has a single interface
+
+	byte[] data = null; // transport data received - for now only one datagram for hosts
 	
 	public Host(int hostid) {
 		super("H" + hostid,hostid);
@@ -19,15 +20,15 @@ public class Host extends Node implements INetworkLayerEntity {
 		nif = new Interface(this,id,super.name,addr);
 	}
 	
-	public Interface getInterface(int id) {
-		// hosts can currently only have one interface
-		return nif;
+	public Interface getInterface(int nifid) {
+		return nif; // hosts have only a single interface - so ignore id for now
 	}
 
 	public IPAddress getIPAddress() {
 		return nif.getIPaddr();
 		
 	}
+	
 	public void start () {
 		
 		Logger.log(LogLevel.STARTSTOP,super.name + ": starting");
@@ -52,6 +53,7 @@ public class Host extends Node implements INetworkLayerEntity {
 		Logger.log(LogLevel.STARTSTOP,super.name + ": stopped");
 	}
 
+	// invoked by interface when there is a datagram for the host
 	public void deliver (Datagram datagram) {
 		
 		if (nif.getIPaddr().equals(datagram.getDestination())) {
@@ -65,6 +67,7 @@ public class Host extends Node implements INetworkLayerEntity {
 			
 	}
 	
+	// invoked by host to send a datagram - data is tramsport layer data
 	public void udt_send(byte[] data, IPAddress destip) {
 		
 		// encapsulate segment from host into datagram
@@ -77,6 +80,7 @@ public class Host extends Node implements INetworkLayerEntity {
 			
 	}
 	
+	// incolved by transport layer to obtain the datagram (if any) received by host 
 	public byte[] udt_recv() {
 		
 		Logger.log(LogLevel.UDT,super.name + "[udt_recv]:" + data.toString());

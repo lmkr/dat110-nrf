@@ -11,7 +11,6 @@ import no.hvl.dat110.nrf.dataplane.ForwardingTable;
 public class Router extends Node {
 
 	protected ArrayList<Interface> interfaces;
-
 	protected ForwardingTable forwardingtable;
 
 	public Router(int routerid) {
@@ -48,6 +47,7 @@ public class Router extends Node {
 
 		Logger.log(LogLevel.STARTSTOP,super.name + ": stopping");
 
+		// stop all interfaces
 		interfaces.forEach(
 
 				nif -> {
@@ -78,7 +78,6 @@ public class Router extends Node {
 		
 		Logger.log(LogLevel.DELIVER,super.name + "[deliver]:" + datagram.toString());
 		
-		// TODO: need to check on type to deliver correctly - may not be forward
 		forward(datagram);
 	}
 

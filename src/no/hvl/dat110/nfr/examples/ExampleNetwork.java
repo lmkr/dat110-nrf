@@ -31,9 +31,9 @@ class ExampleNetwork {
 		H3 = new Host(3);
 		H3.ifconfig(1, new IPAddress("3.8.3.1"));
 
-		network.add(H1);
-		network.add(H2);
-		network.add(H3);
+		network.addNode(H1);
+		network.addNode(H2);
+		network.addNode(H3);
 
 		// routers
 		R4 = new Router(4);
@@ -59,11 +59,11 @@ class ExampleNetwork {
 		R8.ifconfig(2, new IPAddress("3.8.3.2"));
 		R8.ifconfig(3, new IPAddress("7.8.8.3"));
 
-		network.add(R4);
-		network.add(R5);
-		network.add(R6);
-		network.add(R7);
-		network.add(R8);
+		network.addNode(R4);
+		network.addNode(R5);
+		network.addNode(R6);
+		network.addNode(R7);
+		network.addNode(R8);
 
 		// communication links
 		network.connect(H1, 1, R4, 1);

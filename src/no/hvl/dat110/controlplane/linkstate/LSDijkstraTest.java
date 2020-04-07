@@ -52,12 +52,12 @@ class LSDijkstraTest {
 		R6.ifconfig(2, new IPAddress("5.6.6.2"));
 		R6.ifconfig(3, new IPAddress("1.3.6.3"));
 		
-		network.add(H1);
-		network.add(R2);
-		network.add(R3);
-		network.add(H4);
-		network.add(R5);
-		network.add(R6);
+		network.addNode(H1);
+		network.addNode(R2);
+		network.addNode(R3);
+		network.addNode(H4);
+		network.addNode(R5);
+		network.addNode(R6);
 
 		// communication links
 		network.connect(H1, 1, R6, 3);

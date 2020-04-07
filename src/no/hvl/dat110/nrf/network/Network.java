@@ -23,7 +23,7 @@ public class Network {
 		
 	}
 	
-	public ArrayList<Integer> getNids () {
+	public ArrayList<Integer> getNodeIds () {
 		
 		ArrayList<Integer> nids = new ArrayList<Integer>();
 		
@@ -36,7 +36,7 @@ public class Network {
 		return links;
 	}
 	
-	public void add(Node node) {
+	public void addNode(Node node) {
 		nodes.add(node);
 	}
 	

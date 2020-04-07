@@ -29,7 +29,7 @@ public class Interface extends Stopable {
 	}
 
 	public Node getNode() {
-		return node;
+		return this.node;
 	}
 	
 	public int getIfId() {
@@ -37,12 +37,12 @@ public class Interface extends Stopable {
 	}
 	
 	public IPAddress getIPaddr() {
-		return ipaddr;
+		return this.ipaddr;
 	}
 
 	public Port getPort () {
 		
-		return port;
+		return this.port;
 	}
 	
 	public void ipconfig(IPAddress ipadr) {

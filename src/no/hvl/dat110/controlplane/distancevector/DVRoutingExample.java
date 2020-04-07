@@ -34,9 +34,9 @@ public class DVRoutingExample {
 		R2 = new DVRouter(2,N);
 		R2.ifconfig(1, new IPAddress("2.1.2.1"));
 
-		network.add(R0);
-		network.add(R1);
-		network.add(R2);
+		network.addNode(R0);
+		network.addNode(R1);
+		network.addNode(R2);
 
 		// communication links
 		network.connect(R0, 1, R1, 1);
