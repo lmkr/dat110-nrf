@@ -30,11 +30,11 @@ public abstract class Stopable extends Thread {
 	
 	public void run() {
 
-		System.out.println(name + " starting");
+		Logger.log(LogLevel.STARTSTOP,name + " starting");
 		
 		starting();
 		
-		System.out.println(name + " running");
+		Logger.log(LogLevel.STARTSTOP,name + " running");
 		
 		while (doCont()) {
 
@@ -42,10 +42,10 @@ public abstract class Stopable extends Thread {
 			
 		}
 
-		System.out.println(name + " stopping");
+		Logger.log(LogLevel.STARTSTOP,name + " stopping");
 
 		starting();
 		
-		System.out.println(name + " stopped");
+		Logger.log(LogLevel.STARTSTOP,name + " stopped");
 	}
 }

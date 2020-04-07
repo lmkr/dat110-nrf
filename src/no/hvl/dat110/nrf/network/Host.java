@@ -73,7 +73,7 @@ public class Host extends Node implements INetworkLayerEntity {
 		// encapsulate segment from host into datagram
 		Datagram datagram = new Datagram(nif.getIPaddr(),destip,DatagramType.TR,data);
 			
-		Logger.log(LogLevel.UDT,super.name + "[udt_send]:" + datagram.toString());
+		Logger.log(LogLevel.UDT,super.name + "[udt_send]:" + datagram.toString() + "[" + new String(data) + "]");
 			
 		// transmit on the network interface of the host
 		nif.transmit(datagram);
@@ -83,7 +83,7 @@ public class Host extends Node implements INetworkLayerEntity {
 	// incolved by transport layer to obtain the datagram (if any) received by host 
 	public byte[] udt_recv() {
 		
-		Logger.log(LogLevel.UDT,super.name + "[udt_recv]:" + data.toString());
+		Logger.log(LogLevel.UDT,super.name + "[udt_recv]:" + data.toString() + "["+ new String(data) + "]");
 		
 		return data;
 		

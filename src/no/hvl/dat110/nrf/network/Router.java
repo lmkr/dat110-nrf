@@ -90,7 +90,7 @@ public class Router extends Node {
 		Interface ninterface = getInterface(nifid);
 
 		if (ninterface != null) {
-			Logger.log(LogLevel.FORWARD,super.name + "[forwarding[" + ninterface.getIfId() + "]]:" + datagram.toString());
+			Logger.log(LogLevel.FORWARD,super.name + "[forwarding[interface:" + ninterface.getIfId() + "]]:" + datagram.toString());
 			ninterface.transmit(datagram);
 		} else {
 			Logger.log(LogLevel.FORWARD,super.name + "[no route found]:" + datagram.toString());
@@ -114,7 +114,7 @@ public class Router extends Node {
 	public void display() {
 		
 		Logger.log(LogLevel.NETWORK, "=================");
-		Logger.log(LogLevel.NETWORK, "Host: " + super.name);
+		Logger.log(LogLevel.NETWORK, "Router: " + super.name);
 		displayInterfaces();
 		displayForwardingTable();
 	}

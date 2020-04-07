@@ -2,7 +2,7 @@ package no.hvl.dat110.nrf.addressing;
 
 public class Datagram {
 
-	static int id = 1; // TODO: role of identifier? 
+	static int id = 1; 
 	
 	private IPAddress source, destination;	
 	private int identifier;
@@ -47,7 +47,7 @@ public class Datagram {
 	
 	@Override
 	public String toString() {
-		return "Datagram [source=" + source + ", destination=" + destination + ", id=" + identifier + "type =" + type + ", data="
+		return "Datagram [source=" + source + ", destination=" + destination + ", id=" + identifier + ", type=" + type + ", data="
 				+ data.toString() + "]";
 	}
 
