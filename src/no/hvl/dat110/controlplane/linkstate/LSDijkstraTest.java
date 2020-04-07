@@ -87,11 +87,15 @@ class LSDijkstraTest {
 
 		NetworkGraph graph = new NetworkGraph(network);
 		
-		graph.printGraph();
+		graph.display();
 		
 		LSDijkstra ls = new LSDijkstra(1,graph);
 		
 		ls.compute();
+		
+		ls.constructForwardingTable();
+		
+		ls.displayForwardingTable();
 	
 	}
 }

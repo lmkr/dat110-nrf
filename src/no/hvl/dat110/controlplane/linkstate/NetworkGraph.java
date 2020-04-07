@@ -56,11 +56,14 @@ public class NetworkGraph {
 						int nodesrc = link.getSrc().getNode().nid;
 						int nodedest = link.getDest().getNode().nid;
 					
-						graph.get(nodesrc).add(new Integer(nodedest)); // TODO - change nid to Integer?
+						graph.get(nodesrc).add(nodedest); 
 				});
 	}
 	
-	public void printGraph() {
+	public void display() {
+		
+		Logger.log(LogLevel.GRAPH, "==============");
+		Logger.log(LogLevel.GRAPH,"Network Graph: node[neighbours]");
 		
 		graph.forEach((node,edges) -> {
 		

@@ -10,51 +10,52 @@ import no.hvl.dat110.nrf.network.Network;
 import no.hvl.dat110.nrf.network.Node;
 
 public class LSDijkstra {
-
-	// node for which the routing algorithm is executed
-	// TODO. change this such that it implement the algorithm using int as nodes - perhaps using generics?
-	// make it support both online and office line use such that it can be tested in isolation and still work 
-	// as part of the LSDaemon.
 	
-	private Integer u;
+	private Integer u; // node for which least-cost paths are being computed
+	
 	private NetworkGraph graph;
 
 	private ArrayList<Integer> Nprime;
 	private ArrayList<Integer> N;
 
-	private HashMap<Integer, LSEntry> current; // TODO: array indexed by node index?
+	private HashMap<Integer, LSEntry> entries; 
 
-	HashMap<Integer,Integer> forwardingtable;
+	private HashMap<Integer,Integer> forwardingtable;
+
+	private static int INF = Integer.MAX_VALUE;
 	
 	public LSDijkstra(Integer u, NetworkGraph graph) {
 		this.u = u;
 
 		Nprime = new ArrayList<Integer>();
-		N = new ArrayList<Integer>(graph.getNodes()); // TODO: change to using priority queue on distance
+		N = new ArrayList<Integer>(graph.getNodes()); 
 
 		this.graph = graph;
-		current = new HashMap<Integer, LSEntry>();
+		entries = new HashMap<Integer, LSEntry>();
 		forwardingtable = new HashMap<Integer,Integer>();
 	}
 
-	private void showEntries() {
+	private void displayEntries() {
 
-		current.forEach((v, entry) ->
+		Logger.lg(LogLevel.LS, "Entries v[p(v),D(v)]:");
+		entries.forEach((v, entry) ->
 
 		{
-			Logger.lg(LogLevel.GRAPH, v + entry.toString());
+			Logger.lg(LogLevel.LS, " " + v + entry.toString());
 
 		});
 
-		Logger.log(LogLevel.GRAPH, "");
+		Logger.log(LogLevel.LS, "");
 	}
 
 	private void init() {
 
+		Logger.log(LogLevel.LS, "Initialisation step");
+		
 		Nprime.add(u);
 		N.remove(u);
 
-		current.put(u,new LSEntry(u,0));
+		entries.put(u,new LSEntry(u,0));
 		
 		ArrayList<Integer> neighbours = graph.getNeighbours(u);
 
@@ -66,14 +67,15 @@ public class LSDijkstra {
 			LSEntry entry;
 
 			if (!neighbours.contains(v)) {
-				d = Integer.MAX_VALUE; // infinity
+				d = INF;  // infinity
 				prev = 0;
 			}
 
 			entry = new LSEntry(prev, d);
-			current.put(v, entry);
+			entries.put(v, entry);
 		});
 
+		displayEntries();
 	}
 
 	private Integer findMinNodeN() {
@@ -81,14 +83,14 @@ public class LSDijkstra {
 		assert(N.size() != 0); // assume not-empty since the method is called
 		
 		Integer n = N.get(new Integer(0)); // TODO: check
-		int minD =  current.get(n).getD();
+		int minD =  entries.get(n).getD();
 		
 		Iterator<Integer> it = N.iterator();
 		
 		while (it.hasNext()) {
 		
 			Integer v = it.next();
-			LSEntry ventry = current.get(v);
+			LSEntry ventry = entries.get(v);
 			
 			if (ventry.getD() < minD) {
 				
@@ -102,41 +104,36 @@ public class LSDijkstra {
 
 	private void loop() {
 
+		Logger.log(LogLevel.LS, "Iteration step");
+		
 		while (N.size() > 0) {
 
 			Integer w = findMinNodeN();
-
-			Logger.log(LogLevel.GRAPH,"SELECT:" + w);
+			N.remove(w);
+			
+			Logger.log(LogLevel.LS,"Selected w=" + w);
 			
 			// move node from N to Nprime
 			Nprime.add(w);
 			
-			N.remove(w);
-
 			graph.getNeighbours(w).forEach(v -> {
 
 				if (!Nprime.contains(v)) {
-
-					Logger.lg(LogLevel.GRAPH, "CHECK: " + v + "");
 					
-					int Dw = current.get(w).getD();
+					int Dw = entries.get(w).getD();
 
-					LSEntry ventry = current.get(v);
+					LSEntry ventry = entries.get(v);
 					int Dv = ventry.getD();
 
 					if (Dv > Dw + 1) {
-						Logger.lg(LogLevel.GRAPH, "+");
 						ventry.setD(Dw + 1);
 						ventry.setPrev(w);
-					}
-					
-					Logger.log(LogLevel.GRAPH, "");
-					
+					}					
 				}
 
 			});
 			
-			showEntries();
+			displayEntries();
 			
 		}
 	}
@@ -145,24 +142,21 @@ public class LSDijkstra {
 		
 		int nexthop = 0;
 		int prevnode = destnode; 
-		
-		Logger.log(LogLevel.GRAPH,Integer.toString(destnode));
-		
+			
 		do {
 			
 			nexthop = prevnode;
-			prevnode = current.get(prevnode).getPrev();
-			
-			Logger.log(LogLevel.GRAPH,prevnode + "->" + nexthop);
-			
-		
+			prevnode = entries.get(prevnode).getPrev();
+				
 		} while (prevnode != u);
 		
 		return nexthop;
 	}
 	
-	private HashMap<Integer,Integer> constructForwardingTable() {
+	public void constructForwardingTable() {
 		
+		Logger.lg(LogLevel.LS, "Constructing forwarding table ...");
+		 
 		Nprime.forEach(v ->  {
 			
 			int nexthop = findNextHop(v);
@@ -170,19 +164,19 @@ public class LSDijkstra {
 			forwardingtable.put(v, nexthop);
 			
 		});
-		
-		return forwardingtable;
+	
+		Logger.log(LogLevel.LS, "done");
 		
 	}
 	
-	private void showForwardingTable() {
+	public void displayForwardingTable() {
 		
-		Logger.log(LogLevel.GRAPH, "Forwarding table");
+		Logger.log(LogLevel.LS, "R" + u + ": Forwarding table (dest -> next-hop)");
 		
 		forwardingtable.forEach(
 				(v,nexthop) -> {
 					
-					Logger.log(LogLevel.GRAPH,v + "->" + nexthop);
+					Logger.log(LogLevel.LS,v + "->" + nexthop);
 					
 				});
 		
@@ -191,13 +185,7 @@ public class LSDijkstra {
 
 		init();
 		
-		showEntries();
-		
 		loop();
-		
-		constructForwardingTable();
-		
-		showForwardingTable();
-		
+				
 	}
 }

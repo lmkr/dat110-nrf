@@ -126,7 +126,7 @@ public class LSRoutingDaemon extends Stopable {
 	
 	public void display() {
 		
-		graph.printGraph();
+		graph.display();
 		
 	}
 

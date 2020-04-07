@@ -1,7 +1,5 @@
 package no.hvl.dat110.controlplane.linkstate;
 
-import no.hvl.dat110.nrf.network.Node;
-
 public class LSEntry {
 
 	private int prev;
@@ -37,11 +35,11 @@ public class LSEntry {
 	public String toString() {
 
 		String prevstr = "-";
-		String dstr = "inf";
+		String dstr = "INF";
 
-		// TODO: test could be made better
+		// TODO: test could be made better - fix when using indexing from R0
 		if (prev != 0) {
-			prevstr = Integer.toString(prev); // prev.getName();
+			prevstr = Integer.toString(prev); 
 		}
 		
 		if (d < Integer.MAX_VALUE) {
