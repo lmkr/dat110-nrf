@@ -82,7 +82,7 @@ public class LSDijkstra {
 		
 		assert(N.size() != 0); // assume not-empty since the method is called
 		
-		Integer n = N.get(new Integer(0)); // TODO: check
+		Integer n = N.get(0); // TODO: check - is this correect?
 		int minD =  entries.get(n).getD();
 		
 		Iterator<Integer> it = N.iterator();
@@ -104,7 +104,7 @@ public class LSDijkstra {
 
 	private void loop() {
 
-		Logger.log(LogLevel.LS, "Iteration step");
+		Logger.log(LogLevel.LS, "Iteration step " + N.size());
 		
 		while (N.size() > 0) {
 
@@ -155,7 +155,7 @@ public class LSDijkstra {
 	
 	public void constructForwardingTable() {
 		
-		Logger.lg(LogLevel.LS, "Constructing forwarding table ...");
+		Logger.lg(LogLevel.LS, "Constructing forwarding table ..." + Nprime.size());
 		 
 		Nprime.forEach(v ->  {
 			

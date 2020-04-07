@@ -25,7 +25,7 @@ public class LSRoutingDaemon extends Stopable {
 	
 	private int N;
 	
-	private LSDijkstra ls; 
+	private LSDijkstra ls = null; 
 	
 	public LSRoutingDaemon(DynamicRouter router, int N) {
 		super("LS:" + router.getName());
@@ -34,7 +34,6 @@ public class LSRoutingDaemon extends Stopable {
 		this.router = router;
 		this.graph = new NetworkGraph();
 		this.N = N;
-		this.ls = new LSDijkstra(router.nid,graph);
 		this.recvqueue = new LinkedBlockingQueue<LSNeighbourMsg>();
 	}
 	
@@ -105,6 +104,8 @@ public class LSRoutingDaemon extends Stopable {
 	@Override
 	public void stopping () {
 			
+		this.ls = new LSDijkstra(router.nid,graph);
+		
 		ls.compute();
 		
 		ls.constructForwardingTable();
