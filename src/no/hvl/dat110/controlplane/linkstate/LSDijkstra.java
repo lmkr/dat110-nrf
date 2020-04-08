@@ -6,8 +6,6 @@ import java.util.Iterator;
 
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
-import no.hvl.dat110.nrf.network.Network;
-import no.hvl.dat110.nrf.network.Node;
 
 public class LSDijkstra {
 	
@@ -178,7 +176,7 @@ public class LSDijkstra {
 	
 	public void displayForwardingTable() {
 		
-		Logger.log(LogLevel.LS, "R" + u + ": Forwarding table (dest -> next-hop)");
+		Logger.log(LogLevel.LS, "R" + u + ": LS Forwarding table (dest -> next-hop)");
 		
 		forwardingtable.forEach(
 				(v,nexthop) -> {

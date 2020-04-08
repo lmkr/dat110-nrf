@@ -43,7 +43,7 @@ public class LSRoutingExample {
 		network.connect(R2, 2, R3, 1);
 	
 		network.start();
-		network.display();
+		// network.display(); // causes problem with LS daemon flooding phase
 	}
 
 	@AfterEach
@@ -58,8 +58,12 @@ public class LSRoutingExample {
 		
 		try {
 			
-			// let the routing run for a while
-			Thread.sleep(15000);
+			System.out.println("LS example network running ");
+			
+			// let the LS routing run for a while
+			Thread.sleep(10000);
+			
+			System.out.println("LS example network stopping ");
 			
 		} catch (InterruptedException ex) {
 

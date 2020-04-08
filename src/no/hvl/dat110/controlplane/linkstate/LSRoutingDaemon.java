@@ -55,7 +55,11 @@ public class LSRoutingDaemon extends Stopable {
 		
 		Gson gson = new Gson();
 
-		byte[] data = gson.toJson(msg).getBytes();
+		String json = gson.toJson(msg);
+		
+		Logger.log(LogLevel.FL, "R" + router.nid + " started flooding:" + json);
+		
+		byte[] data = json.getBytes();
 		
 		router.broadcastAllInterfaces(DatagramType.LS, data);
 		
@@ -75,6 +79,10 @@ public class LSRoutingDaemon extends Stopable {
 
 				Integer nid = msg.getNode();
 				
+				Gson gson = new Gson();
+
+				String json = gson.toJson(msg);
+				
 				if (!nodes.contains(nid)) {
 					
 					nodes.add(nid);
@@ -84,11 +92,14 @@ public class LSRoutingDaemon extends Stopable {
 					graph.addNeighbours(nid, neighbours);
 					
 					// pass message to all neighbours
-					Gson gson = new Gson();
-
-					byte[] data = gson.toJson(msg).getBytes();
+					
+					Logger.log(LogLevel.FL, "R" + router.nid + " " + nodes.size() + " forward flooding:" + json);
+	
+					byte[] data = json.getBytes();
 					
 					router.broadcastAllInterfaces(DatagramType.LS, data);
+				} else {
+					Logger.log(LogLevel.FL, "R" + router.nid + " not forward flooding:" + json);
 				}
 				
 			}
@@ -99,14 +110,21 @@ public class LSRoutingDaemon extends Stopable {
 		}
 		
 		if (nodes.size() == N) {
-			Logger.log(LogLevel.LS,"****Node u = " + router.nid + " flooding completed");
+			Logger.log(LogLevel.FL,"****Node u = " + router.nid + " flooding completed");
 			doStop();
 		}
 	}
 	
 	@Override
 	public void stopping () {
-			
+		
+		Logger.log(LogLevel.FL,"****Node u = " + router.nid + " stopping flooding " + nodes.size() + " N=" + N);
+		
+		// assert that required information has been received in the flooding phase
+		assert(nodes.size() == N); 
+		
+		assert(graph.getNodes().size() == N);
+		
 		this.ls = new LSDijkstra(router.nid,graph);
 		
 		ls.compute();
@@ -124,6 +142,9 @@ public class LSRoutingDaemon extends Stopable {
 		JsonObject json = jsonParser.parse(jsonmsg).getAsJsonObject();
 		Gson gson = new Gson();
 
+		Logger.log(LogLevel.FL, "R" + router.nid + " received flooding:" + json);
+
+		
 		LSNeighbourMsg msg = gson.fromJson(json, LSNeighbourMsg.class);
 		
 		try {

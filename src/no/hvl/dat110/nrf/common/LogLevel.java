@@ -8,7 +8,8 @@ public class LogLevel {
 	public static boolean DELIVER = true;
 	public static boolean ERROR = true;
 	public static boolean NETWORK = true;
-	public static boolean GRAPH = true;
+	public static boolean GRAPH = false;
 	public static boolean DV = true;
 	public static boolean LS = true;
+	public static boolean FL = false;
 }
