@@ -49,6 +49,8 @@ public class LSRoutingDaemon extends Stopable {
 		graph.addNode(router.nid);
 		graph.addNeighbours(router.nid, nbrs);
 		
+		nodes.add(router.nid);
+		
 		LSNeighbourMsg msg = new LSNeighbourMsg(router.nid,nbrs);
 		
 		Gson gson = new Gson();
@@ -97,6 +99,7 @@ public class LSRoutingDaemon extends Stopable {
 		}
 		
 		if (nodes.size() == N) {
+			Logger.log(LogLevel.LS,"****Node u = " + router.nid + " flooding completed");
 			doStop();
 		}
 	}

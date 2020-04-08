@@ -59,7 +59,7 @@ public class LSRoutingExample {
 		try {
 			
 			// let the routing run for a while
-			Thread.sleep(5000);
+			Thread.sleep(15000);
 			
 		} catch (InterruptedException ex) {
 

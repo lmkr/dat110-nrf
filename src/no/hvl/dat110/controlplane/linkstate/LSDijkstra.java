@@ -123,6 +123,13 @@ public class LSDijkstra {
 					int Dw = entries.get(w).getD();
 
 					LSEntry ventry = entries.get(v);
+					
+					if (ventry == null) {
+						
+						Logger.log(LogLevel.LS,"LS loop error v = " + v + "w = " + w + "Dw = " + Dw + "u=" + u);
+						assert(false);
+					}
+					
 					int Dv = ventry.getD();
 
 					if (Dv > Dw + 1) {
