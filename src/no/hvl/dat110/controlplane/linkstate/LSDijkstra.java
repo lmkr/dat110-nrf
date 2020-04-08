@@ -50,7 +50,7 @@ public class LSDijkstra {
 
 	private void init() {
 
-		Logger.log(LogLevel.LS, "Initialisation step");
+		Logger.log(LogLevel.LS, "Initialisation step [u=" + u + "]");
 		
 		Nprime.add(u);
 		N.remove(u);
@@ -104,17 +104,17 @@ public class LSDijkstra {
 
 	private void loop() {
 
-		Logger.log(LogLevel.LS, "Iteration step " + N.size());
+		Logger.log(LogLevel.LS, "Iteration step");
 		
 		while (N.size() > 0) {
 
 			Integer w = findMinNodeN();
-			N.remove(w);
-			
-			Logger.log(LogLevel.LS,"Selected w=" + w);
 			
 			// move node from N to Nprime
+			N.remove(w);
 			Nprime.add(w);
+			
+			Logger.log(LogLevel.LS,"Selected w=" + w + " |N|=" + N.size() + " |N'|=" + Nprime.size());
 			
 			graph.getNeighbours(w).forEach(v -> {
 
@@ -155,7 +155,7 @@ public class LSDijkstra {
 	
 	public void constructForwardingTable() {
 		
-		Logger.lg(LogLevel.LS, "Constructing forwarding table ..." + Nprime.size());
+		Logger.lg(LogLevel.LS, "Constructing forwarding table ...");
 		 
 		Nprime.forEach(v ->  {
 			

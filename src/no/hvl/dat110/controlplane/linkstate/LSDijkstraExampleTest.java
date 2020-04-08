@@ -9,11 +9,15 @@ import no.hvl.dat110.nrf.network.Host;
 import no.hvl.dat110.nrf.network.Network;
 import no.hvl.dat110.nrf.network.Router;
 
-class LSDijkstraTest {
+class LSDijkstraExampleTest {
 
 	private Network network;
+		
 	private Host H1,H4;
 	private Router R2, R3, R5, R6;
+	
+	private NetworkGraph graph;
+	private LSDijkstra ls;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -82,20 +86,29 @@ class LSDijkstraTest {
 		
 	}
 	
-	@Test
-	void test() {
-
-		NetworkGraph graph = new NetworkGraph(network);
+	private void testNode(Integer node) {
+		
+		graph = new NetworkGraph(network);
 		
 		graph.display();
 		
-		LSDijkstra ls = new LSDijkstra(1,graph);
+		ls = new LSDijkstra(node,graph);
 		
 		ls.compute();
 		
 		ls.constructForwardingTable();
 		
 		ls.displayForwardingTable();
-	
+		
 	}
+	
+	@Test
+	void test() {
+
+		for (int i = 1; i<=6; i++) {
+			
+			testNode(i);
+		}
+	}
+	
 }
