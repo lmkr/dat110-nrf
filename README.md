@@ -1,33 +1,63 @@
-# dat110-nrf
-Network layer routing and forwarding framework
+### Network Layer Routing Framework (NRF)
 
-- Stoppable oppgave ifm. NRF intro og gjennomgang - også for å teste ut gruppearbeid i Zoom
-- eksplisitt representasjon av transport layer i NRF rammeverk?
-- introdusere udt_send og udt_recv?
-- introdusere muligheten for at pakker går tapt på nettverket.
-- oppgave med å sette opp en enkelt netberk via rammeverket
-- legge til et eksempel med bare two host on to router forbundet i en linje, kjøre dette eksempel først og så utvide
+The NRF framework is an implementation in Java of a virtual network layer that makes it possible to experiment with network layer the central network layer functionality of addressing, network interfaces, routes, datagram forwarding, forwarding tables, and routing algorithms.
 
-- Use of Before Class to avoid starting up the network each time. For routing which does not have side effects that should be unproblematic.
-- Add support for multiple nifs on hosts + routing on hosts to select correct interface
-- check that cloning is done properly upon transmission on links.
-- exercise with implementing hop-count + killing of datagrams
-- use generics to provide better support for different types of datagrams
-- implement better critera for stop of test than timout?
-- add graphical visualisation and interaction in relation to forwarding and routing.
-- what type of license fo vine, rdt, and nrf frameworks? 
-- configure network with a routing loop based on one of the predefined examples.
-- exercise to setup network, including routes
-- exercuse to change a route
-- terminology: forwarding tables vs. routing tables
-- (network) interface vs. java interface
-- exercise with the stopable abstraction
-- introduce explicit transport layer with trl_send, trl_deliver?
-- implementere flooding for LS
-- integrasjon med oppdatering av forwarding tabeller + etterfølgend test med å sende datagram igjennom nettverket
-- søtte for dynamicks link endringer
-- støtte for vekte andre en en
-- Gjøre distance vector uavhneeig av nummering 0... for rutere og legge til støtte for hosts som kan ha default route
-- integrere IP addresser inn i turning algorithmer
+#### Exercise 1 - Getting started and cloning the framework
 
- 
+For an introduction to the basic concepts of the NRF framework you should watch the video: **TODO INSERT LINK**
+
+For an introduction to the implementation you should watch the video:
+
+**TODO INSERT**
+
+Clone the repository located at:
+
+https://github.com/lmkr/dat110-nrf.git
+
+and import the project into your IDE.
+
+#### Exercise 2 - Testing an example network
+
+The package `no.hvl.dat110.nrf.examples` contain several examples of network with hosts and routers. In this exercise you will consider the network in the class `SimpleNetwork.java` comprised of two hosts connected by one router. This is the example that was considered in the video above.
+
+Select the class `SimpleNetwork.java` (which constitute a unit-test) and run it as a unit test. The test will send a datagram through the network from H1 to H3 and a datagram from H3 to H1 and check that the datagram is being correctly received at the destination.
+
+Observe the output in the console. Which route through the network does a datagram follow from host H1 to host H3, and from host H3 to host H1.
+
+#### Exercise 3 - Augment the example network
+
+Augment the network simple network from exercise 2 such that it now has the topology shown in the figure below. The labels indicate the IP address to be configured for each of the interfaces of the hosts and routers.
+
+TODO: Insert Figures
+
+Remember that you also have to add routes to the routers R3-R6 such that datagrams can be transmitted between host H1 and host H2.
+
+Run the test sending datagrams between H1 and H2 and check that datagrams are correctly routed between H1 and H2.
+
+Try to modify the routes such that a datagram from H1 to H2 is send via R2, R3, R5 while a datagram from H2 to H1 is sent via R5, R6, R4, and R3.
+
+#### Exercise 4 - Routing loops and hop count
+
+Misconfiguration of a forwarding table may result in routing-loops where a datagrams keeps being routing along a cycle in the network and never reaches its destination.
+
+Try to modidy the routes setup for the network in Exercise 3 such that a datagram from H1 to H2 will keep being forwarding in a loop comprises of routers R4, R5, R6, R4. Does the datagram reach its destination?
+
+To detect such situation, IP datagrams are equipped with a hop-count (time-to-live) value in its header which is decremented each time the datagram is being forwarded.
+
+Augment the `Datagram.java` such that datagram now also carries a hop count. This hop count should be set to 10 when a hosts sends the datagrams and decremented each time a router forwards the datagram. If a router receives a datagram with a hop count of 0, then it should discard the datagram.
+
+The forwarding of datagram in NRF is implemented in the `forward`-method of the `Router class`
+
+#### Exercise 5 - Routing errors and control messages
+
+A better solution to routing loops that just discarding the datagram is to send a message to the source of the datagram, i.e., the host that send the datagram. This is one of the roles of the Internet Control Message Protocol (ICMP).
+
+Augment the NRF framework such that if a router detects a datagram with a hop count of 0, then it will send an ICMP message back to the source host indicating that the hop-count limit was reached.
+
+#### Exercise 6 - Implementation of link-state routing algorithm
+
+** EXERCISE TODO **
+
+#### Exercise 7 - Implementation of distance-veector routing algorithm
+
+** EXERCISE TODO **
