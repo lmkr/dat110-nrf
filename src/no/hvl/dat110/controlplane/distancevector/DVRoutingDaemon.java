@@ -1,14 +1,14 @@
 package no.hvl.dat110.controlplane.distancevector;
 
 import no.hvl.dat110.controlplane.DynamicRouter;
+import no.hvl.dat110.controlplane.RoutingDaemon;
 import no.hvl.dat110.nrf.addressing.DatagramType;
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
-import no.hvl.dat110.nrf.common.Stopable;
 
 import com.google.gson.*;
 
-public class DVRoutingDaemon extends Stopable {
+public class DVRoutingDaemon extends RoutingDaemon {
 
 	private static int INF = 10000; // TODO: 10000 is considered infinite distance 
 	private static int NONEXTHOP = -1; // value used for when not having a next hop
@@ -43,6 +43,7 @@ public class DVRoutingDaemon extends Stopable {
 		}
 	}
 	
+	@Override
 	public void display() {
 		
 		Logger.log(LogLevel.DV,"Distance Vector (dest | distance | next-hop)");
@@ -139,7 +140,7 @@ public class DVRoutingDaemon extends Stopable {
 	}
 	
 	// invoked when a distance vector is received from a neighbour
-	public void dv_recv(byte[] data) {
+	public void recv(byte[] data) {
 
 		DVMsg dv = convertDVFromJson(data);		
 

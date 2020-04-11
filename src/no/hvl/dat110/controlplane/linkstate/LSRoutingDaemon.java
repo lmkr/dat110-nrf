@@ -10,12 +10,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import no.hvl.dat110.controlplane.DynamicRouter;
+import no.hvl.dat110.controlplane.RoutingDaemon;
 import no.hvl.dat110.nrf.addressing.DatagramType;
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
 import no.hvl.dat110.nrf.common.Stopable;
 
-public class LSRoutingDaemon extends Stopable {
+public class LSRoutingDaemon extends RoutingDaemon {
 
 	private HashSet<Integer> nodes; // nodes from which nieghbour info has been received in teh flooding phase
 
@@ -134,7 +135,7 @@ public class LSRoutingDaemon extends Stopable {
 	}
 	
 	
-	public void ls_recv(byte[] data) {
+	public void recv(byte[] data) {
 		
 		String jsonmsg = new String(data);
 
@@ -157,6 +158,7 @@ public class LSRoutingDaemon extends Stopable {
 		}
 	}
 	
+	@Override
 	public void display() {
 		
 		graph.display();
