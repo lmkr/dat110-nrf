@@ -14,3 +14,4 @@ Areas of further development for the NRF framework.
 - make distance vector independent of numbering from 0 and support also hosts as parts of the networks
 - integrate IP address into the routing algorithms
 - add support for sending more than a single IP datagram as part of the tests
+- Support for broadcast lans

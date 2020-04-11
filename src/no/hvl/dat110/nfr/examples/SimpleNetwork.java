@@ -35,7 +35,7 @@ class SimpleNetwork {
 
 		// routers
 		R2 = new Router(2);
-		R2.ifconfig(1, new IPAddress("1.1.2.1"));
+		R2.ifconfig(1, new IPAddress("1.2.2.1"));
 		R2.ifconfig(2, new IPAddress("2.3.2.2"));
 
 		// routers
