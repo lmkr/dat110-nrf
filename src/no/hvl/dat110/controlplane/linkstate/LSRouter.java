@@ -1,9 +1,7 @@
 package no.hvl.dat110.controlplane.linkstate;
 
-import java.util.HashMap;
 
 import no.hvl.dat110.controlplane.DynamicRouter;
-import no.hvl.dat110.controlplane.distancevector.DVRoutingDaemon;
 import no.hvl.dat110.nrf.addressing.Datagram;
 import no.hvl.dat110.nrf.addressing.DatagramType;
 import no.hvl.dat110.nrf.common.LogLevel;

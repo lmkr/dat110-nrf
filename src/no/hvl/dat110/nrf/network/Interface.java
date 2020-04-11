@@ -93,7 +93,7 @@ public class Interface extends Stopable {
 		IPAddress destip = port.getOutgoing().getDest().getIPaddr();
 		
 		Logger.log(
-				LogLevel.NETWORK, "if[" + id + "][" + ipaddr + "<->" + destip.toString() + "]");
+				LogLevel.NETWORK, "if[" + id + "][" + ipaddr + "<-->" + destip.toString() + "]");
 						
 	}
 }
