@@ -16,4 +16,5 @@ Areas of further development for the NRF framework.
 - add support for sending more than a single IP datagram as part of the tests
 - Support for broadcast lans
 - consider remodelling the relationship betwen ports and links
-
+- make LSRouter and DVROuter not having to rely on N
+- remodel entries i LS to make code close to suing D(v) and p(v) notation directly.

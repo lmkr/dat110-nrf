@@ -26,9 +26,6 @@ public abstract class DynamicRouter extends Router {
 	
 	}
 	
-	// TODO: collect common parts in LS and DV Routers
-	// TODO: collect common parts in LS and DV routing daemons
-	
 	@Override
 	public void deliver(Datagram datagram) {
 

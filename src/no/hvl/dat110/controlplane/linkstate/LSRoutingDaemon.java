@@ -14,7 +14,6 @@ import no.hvl.dat110.controlplane.RoutingDaemon;
 import no.hvl.dat110.nrf.addressing.DatagramType;
 import no.hvl.dat110.nrf.common.LogLevel;
 import no.hvl.dat110.nrf.common.Logger;
-import no.hvl.dat110.nrf.common.Stopable;
 
 public class LSRoutingDaemon extends RoutingDaemon {
 

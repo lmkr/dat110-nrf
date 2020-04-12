@@ -17,7 +17,6 @@ public class LSDijkstra {
 	private ArrayList<Integer> N;
 
 	private HashMap<Integer, LSEntry> entries; 
-
 	private HashMap<Integer,Integer> forwardingtable;
 
 	private static int INF = Integer.MAX_VALUE;
@@ -46,6 +45,32 @@ public class LSDijkstra {
 		Logger.log(LogLevel.LS, "");
 	}
 
+	// find one of the nodes in N with smallest estimed distance to u
+	private Integer findMinNodeN() {
+		
+		assert(N.size() != 0); // assume not-empty since the method is called
+		
+		Integer n = N.get(0); // TODO: check - is this correect?
+		int minD =  entries.get(n).getD();
+		
+		Iterator<Integer> it = N.iterator();
+		
+		while (it.hasNext()) {
+		
+			Integer v = it.next();
+			LSEntry ventry = entries.get(v);
+			
+			if (ventry.getD() < minD) {
+				
+				n = v;
+				
+			}
+		}
+		
+		return n;
+	}
+
+	// initialisation step of Dijkstra's algorithm
 	private void init() {
 
 		Logger.log(LogLevel.LS, "Initialisation step [u=" + u + "]");
@@ -73,33 +98,30 @@ public class LSDijkstra {
 			entries.put(v, entry);
 		});
 
+		// display entries after initialisation
 		displayEntries();
 	}
-
-	private Integer findMinNodeN() {
-		
-		assert(N.size() != 0); // assume not-empty since the method is called
-		
-		Integer n = N.get(0); // TODO: check - is this correect?
-		int minD =  entries.get(n).getD();
-		
-		Iterator<Integer> it = N.iterator();
-		
-		while (it.hasNext()) {
-		
-			Integer v = it.next();
-			LSEntry ventry = entries.get(v);
-			
-			if (ventry.getD() < minD) {
-				
-				n = v;
-				
-			}
-		}
-		
-		return n;
+	
+	// utility method to get D(v) for a node v
+	private int D(Integer v) {
+		return entries.get(v).getD();
 	}
-
+	
+	private void setD(Integer v, int distance) {
+		entries.get(v).setD(distance);
+	}
+	
+	// utility method to get D(v) for a node v
+	
+	public Integer p(Integer v) {
+		return entries.get(v).getPrev();
+	}
+	
+	public void setp(Integer v, Integer n) {
+		entries.get(v).setPrev(n);
+	}
+	
+	// iteration in Dikstra's algorithm
 	private void loop() {
 
 		Logger.log(LogLevel.LS, "Iteration step");
@@ -108,7 +130,6 @@ public class LSDijkstra {
 
 			Integer w = findMinNodeN();
 			
-			// move node from N to Nprime
 			N.remove(w);
 			Nprime.add(w);
 			
@@ -118,26 +139,19 @@ public class LSDijkstra {
 
 				if (!Nprime.contains(v)) {
 					
-					int Dw = entries.get(w).getD();
-
-					LSEntry ventry = entries.get(v);
+					int Dw = D(w); 
 					
-					if (ventry == null) {
-						
-						Logger.log(LogLevel.LS,"LS loop error v = " + v + "w = " + w + "Dw = " + Dw + "u=" + u);
-						assert(false);
-					}
-					
-					int Dv = ventry.getD();
+					int Dv = D(v); 
 
 					if (Dv > Dw + 1) {
-						ventry.setD(Dw + 1);
-						ventry.setPrev(w);
+						setD(v,Dw + 1);
+						setp(v,w); 
 					}					
 				}
 
 			});
 			
+			// display entries after loop
 			displayEntries();
 			
 		}
@@ -151,7 +165,7 @@ public class LSDijkstra {
 		do {
 			
 			nexthop = prevnode;
-			prevnode = entries.get(prevnode).getPrev();
+			prevnode = p(prevnode);
 				
 		} while (prevnode != u);
 		
