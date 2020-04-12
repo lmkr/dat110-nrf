@@ -78,17 +78,11 @@ public class DVRoutingDaemon extends RoutingDaemon {
 		distancevector[v].update(dist, dest);
 	}
 
-	
 	private void updateDV(int dest, int[] dv) {
 
-		for (int v = 0; v < distancevector.length; v++) {
-
-			if (D(v) > dv[v] + 1) {
-
-				updatedv(v,dv[v] + 1, dest);
-
-			}
-		}
+		// TODO
+		
+		// implement update the distance vector for node based on received distance vector dv
 	}
 
 	private DVMsg convertDVtoDVMsg() {

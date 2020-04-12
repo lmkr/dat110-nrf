@@ -75,29 +75,8 @@ public class LSDijkstra {
 
 		Logger.log(LogLevel.LS, "Initialisation step [u=" + u + "]");
 		
-		Nprime.add(u);
-		N.remove(u);
-
-		entries.put(u,new LSEntry(u,0));
+		// TODO: complete implementation of initialsiation setup in algorithm
 		
-		ArrayList<Integer> neighbours = graph.getNeighbours(u);
-
-		N.forEach(v -> {
-
-			int d = 1;
-			int prev = u;
-			
-			LSEntry entry;
-
-			if (!neighbours.contains(v)) {
-				d = INF;  // infinity
-				prev = 0;
-			}
-
-			entry = new LSEntry(prev, d);
-			entries.put(v, entry);
-		});
-
 		// display entries after initialisation
 		displayEntries();
 	}
@@ -125,37 +104,15 @@ public class LSDijkstra {
 	private void loop() {
 
 		Logger.log(LogLevel.LS, "Iteration step");
-		
-		while (N.size() > 0) {
-
-			Integer w = findMinNodeN();
 			
-			N.remove(w);
-			Nprime.add(w);
+			// TODO - complete implementation of loop in Dikjstra's algorithm
 			
-			Logger.log(LogLevel.LS,"Selected w=" + w + " |N|=" + N.size() + " |N'|=" + Nprime.size());
-			
-			graph.getNeighbours(w).forEach(v -> {
-
-				if (!Nprime.contains(v)) {
-					
-					int Dw = D(w); 
-					
-					int Dv = D(v); 
-
-					if (Dv > Dw + 1) {
-						setD(v,Dw + 1);
-						setp(v,w); 
-					}					
-				}
-
-			});
+			// Logger.log(LogLevel.LS,"Selected w=" + w + " |N|=" + N.size() + " |N'|=" + Nprime.size());
 			
 			// display entries after loop
 			displayEntries();
 			
 		}
-	}
 
 	private int findNextHop(int destnode) {
 		
@@ -176,13 +133,7 @@ public class LSDijkstra {
 		
 		Logger.lg(LogLevel.LS, "Constructing forwarding table ...");
 		 
-		Nprime.forEach(v ->  {
-			
-			int nexthop = findNextHop(v);
-			
-			forwardingtable.put(v, nexthop);
-			
-		});
+		// TODO: complete construction of forwarding table based on distance vector, D(v), and p(v) information
 	
 		Logger.log(LogLevel.LS, "done");
 		
