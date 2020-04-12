@@ -70,21 +70,28 @@ public class DVRoutingDaemon extends RoutingDaemon {
 		}
 	}
 	
+	private int D(int v) {
+		return distancevector[v].getDistance();
+	}
+	
+	private void updatedv(int v, int dist, int dest) {
+		distancevector[v].update(dist, dest);
+	}
+
+	
 	private void updateDV(int dest, int[] dv) {
 
-		for (int i = 0; i < distancevector.length; i++) {
+		for (int v = 0; v < distancevector.length; v++) {
 
-			DVEntry dventry = distancevector[i];
+			if (D(v) > dv[v] + 1) {
 
-			if (dventry.getDistance() > dv[i] + 1) {
-
-				dventry.update(dv[i] + 1, dest);
+				updatedv(v,dv[v] + 1, dest);
 
 			}
 		}
 	}
 
-	private DVMsg DistanceVectortoDVMsg() {
+	private DVMsg convertDVtoDVMsg() {
 
 		int vector[] = new int[distancevector.length];
 
@@ -117,7 +124,7 @@ public class DVRoutingDaemon extends RoutingDaemon {
 
 	private byte[] convertDVToJson() {
 		
-		DVMsg dv = DistanceVectortoDVMsg();
+		DVMsg dv = convertDVtoDVMsg();
 
 		Gson gson = new Gson();
 
