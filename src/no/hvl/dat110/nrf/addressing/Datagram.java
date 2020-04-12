@@ -4,10 +4,12 @@ public class Datagram {
 
 	static int id = 1; 
 	
+	// header
 	private IPAddress source, destination;	
 	private int identifier;
 	private DatagramType type;
 	
+	// payload
 	private byte[] data;
 
 	public Datagram(IPAddress source, IPAddress destination, DatagramType type, byte[] data) {

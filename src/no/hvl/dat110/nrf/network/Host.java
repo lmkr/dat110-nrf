@@ -29,6 +29,7 @@ public class Host extends Node implements INetworkLayerEntity {
 		
 	}
 	
+	@Override
 	public void start () {
 		
 		Logger.log(LogLevel.STARTSTOP,super.name + ": starting");
@@ -36,6 +37,7 @@ public class Host extends Node implements INetworkLayerEntity {
 		Logger.log(LogLevel.STARTSTOP,super.name + ": started");
 	}
 	
+	@Override
 	public void stop () {
 		
 		Logger.log(LogLevel.STARTSTOP,super.name + ": stopping");

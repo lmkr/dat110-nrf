@@ -15,3 +15,5 @@ Areas of further development for the NRF framework.
 - integrate IP address into the routing algorithms
 - add support for sending more than a single IP datagram as part of the tests
 - Support for broadcast lans
+- consider remodelling the relationship betwen ports and links
+
