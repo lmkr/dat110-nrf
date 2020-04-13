@@ -17,15 +17,15 @@ import no.hvl.dat110.nrf.common.Logger;
 
 public class LSRoutingDaemon extends RoutingDaemon {
 
-	private HashSet<Integer> nodes; // nodes from which nieghbour info has been received in teh flooding phase
+	protected HashSet<Integer> nodes; // nodes from which nieghbour info has been received in teh flooding phase
 
-	private DynamicRouter router;
+	protected DynamicRouter router;
 	private LinkedBlockingQueue<LSNeighbourMsg> recvqueue;
-	private NetworkGraph graph;
+	protected NetworkGraph graph;
 	
-	private int N;
+	protected int N;
 	
-	private LSDijkstra ls = null; 
+	protected LSDijkstra ls = null; 
 	
 	public LSRoutingDaemon(DynamicRouter router, int N) {
 		super("LS:" + router.getName());

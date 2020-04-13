@@ -10,12 +10,12 @@ import com.google.gson.*;
 
 public class DVRoutingDaemon extends RoutingDaemon {
 
-	private static int INF = 10000; // TODO: 10000 is considered infinite distance 
-	private static int NONEXTHOP = -1; // value used for when not having a next hop
+	protected static int INF = 10000; // TODO: 10000 is considered infinite distance 
+	protected static int NONEXTHOP = -1; // value used for when not having a next hop
 	
-	private DynamicRouter router;
+	protected DynamicRouter router;
 
-	private DVEntry[] distancevector; 
+	protected DVEntry[] distancevector; 
 
 	public DVRoutingDaemon(DynamicRouter router, int N) {
 		
@@ -28,19 +28,9 @@ public class DVRoutingDaemon extends RoutingDaemon {
 	@Override
 	public void starting() {
 		
+		// TODO
 		// setup initial distance vector for router
-		for (int i = 0; i < distancevector.length; i++) {
-			
-			int dist = INF;
-			int nexthop = NONEXTHOP;
-			
-			if (i == router.nid) { // next-hop to the node itself is known
-				dist = 0;
-				nexthop = i;
-			}
-			
-			distancevector[i] = new DVEntry(dist, nexthop);
-		}
+		
 	}
 	
 	@Override
@@ -70,15 +60,15 @@ public class DVRoutingDaemon extends RoutingDaemon {
 		}
 	}
 	
-	private int D(int v) {
+	protected int D(int v) {
 		return distancevector[v].getDistance();
 	}
 	
-	private void updatedv(int v, int dist, int dest) {
+	protected void updatedv(int v, int dist, int dest) {
 		distancevector[v].update(dist, dest);
 	}
 
-	private void updateDV(int dest, int[] dv) {
+	protected void updateDV(int dest, int[] dv) {
 
 		// TODO
 		

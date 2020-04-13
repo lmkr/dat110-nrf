@@ -9,17 +9,17 @@ import no.hvl.dat110.nrf.common.Logger;
 
 public class LSDijkstra {
 	
-	private Integer u; // node for which least-cost paths are being computed
+	protected Integer u; // node for which least-cost paths are being computed
 	
-	private NetworkGraph graph;
+	protected NetworkGraph graph;
 
-	private ArrayList<Integer> Nprime;
-	private ArrayList<Integer> N;
+	protected ArrayList<Integer> Nprime;
+	protected ArrayList<Integer> N;
 
-	private HashMap<Integer, LSEntry> entries; 
-	private HashMap<Integer,Integer> forwardingtable;
+	protected HashMap<Integer, LSEntry> entries; 
+	protected HashMap<Integer,Integer> forwardingtable;
 
-	private static int INF = Integer.MAX_VALUE;
+	protected static int INF = Integer.MAX_VALUE;
 	
 	public LSDijkstra(Integer u, NetworkGraph graph) {
 		this.u = u;
@@ -32,7 +32,7 @@ public class LSDijkstra {
 		forwardingtable = new HashMap<Integer,Integer>();
 	}
 
-	private void displayEntries() {
+	protected void displayEntries() {
 
 		Logger.lg(LogLevel.LS, "Entries v[p(v),D(v)]:");
 		entries.forEach((v, entry) ->
@@ -46,7 +46,7 @@ public class LSDijkstra {
 	}
 
 	// find one of the nodes in N with smallest estimed distance to u
-	private Integer findMinNodeN() {
+	protected Integer findMinNodeN() {
 		
 		assert(N.size() != 0); // assume not-empty since the method is called
 		
@@ -71,7 +71,7 @@ public class LSDijkstra {
 	}
 
 	// initialisation step of Dijkstra's algorithm
-	private void init() {
+	protected void init() {
 
 		Logger.log(LogLevel.LS, "Initialisation step [u=" + u + "]");
 		
@@ -82,26 +82,26 @@ public class LSDijkstra {
 	}
 	
 	// utility method to get D(v) for a node v
-	private int D(Integer v) {
+	protected int D(Integer v) {
 		return entries.get(v).getD();
 	}
 	
-	private void setD(Integer v, int distance) {
+	protected void setD(Integer v, int distance) {
 		entries.get(v).setD(distance);
 	}
 	
 	// utility method to get D(v) for a node v
 	
-	public Integer p(Integer v) {
+	protected Integer p(Integer v) {
 		return entries.get(v).getPrev();
 	}
 	
-	public void setp(Integer v, Integer n) {
+	protected void setp(Integer v, Integer n) {
 		entries.get(v).setPrev(n);
 	}
 	
 	// iteration in Dikstra's algorithm
-	private void loop() {
+	protected void loop() {
 
 		Logger.log(LogLevel.LS, "Iteration step");
 			
@@ -114,19 +114,10 @@ public class LSDijkstra {
 			
 		}
 
-	private int findNextHop(int destnode) {
+	protected int findNextHop(int destnode) {
 		
-		int nexthop = 0;
-		int prevnode = destnode; 
-			
-		do {
-			
-			nexthop = prevnode;
-			prevnode = p(prevnode);
-				
-		} while (prevnode != u);
-		
-		return nexthop;
+		// TODO search backwards in predecessor to find next hop for node
+		return 0;
 	}
 	
 	public void constructForwardingTable() {
