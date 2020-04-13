@@ -6,11 +6,11 @@ The NRF framework is an implementation in Java of a virtual network layer that m
 
 For an introduction to the basic concepts of the NRF framework you should watch the video:
 
-**TODO INSERT LINK**
+- *Introduction to the Network Routing Framework (NRF)* available from Canvas under "Emnets mediafiler"
 
 For an introduction to the implementation you should watch the video:
 
-**TODO INSERT**
+- *Demonstration of the Network Routing Framework (NRF)* available from Canvas under "Emnets mediafiler"
 
 The NRF framework is organised into two git-repositories located at:
 
@@ -23,7 +23,7 @@ Clone the two repositories and import the corresponding Java projects into your 
 
 The package `no.hvl.dat110.nrf.staticrouting` in the `dat110-nrf-exercises` project contains several examples of networks with hosts and routers. In this exercise you will consider the network in the class `SimpleNetwork.java` comprised of two hosts connected by two routers. This is the example that was considered in the introduction video:
 
-**TODO INSERT**
+![](assets/markdown-img-paste-20200413121837719.png)
 
 Select the class `SimpleNetwork.java` (which constitute a unit-test) and run it as a unit test. The test will send a datagram through the network from H1 to H4 and a datagram from H4 to H1 and then check that the datagram is being correctly received at the destination.
 
@@ -33,7 +33,7 @@ Observe the output in the console. Which route through the network does a datagr
 
 Augment the network simple network from exercise 2 such that it now has the topology shown in the figure below. The labels indicate the IP address to be configured for each of the interfaces of the hosts and routers.
 
-**TODO: Insert Figures**
+![](assets/markdown-img-paste-2020041312153987.png)
 
 Remember that you also have to add routes to the routers R2-R6 such that datagrams can be transmitted between host H1 and host H4.
 
