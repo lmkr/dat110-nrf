@@ -67,6 +67,10 @@ Modify the implementation of NRF such that network prefixes can be used in the r
 
 ** EXERCISE TODO **
 
-#### Exercise 8 - Implementation of distance-veector routing algorithm
+#### Exercise 8 - Implementation of distance-vector routing algorithm
 
 ** EXERCISE TODO **
+
+#### Exercise 9 - Fragmentation
+
+Implement fragmentation of IP datagrams followed how this is supported by the IPv4 protocol.
