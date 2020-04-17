@@ -85,16 +85,22 @@ public class Router extends Node {
 		
 		IPAddress dest = datagram.getDestination();
 
-		int nifid = forwardingtable.match(dest);
+		Integer nifid = forwardingtable.match(dest);
 
-		Interface ninterface = getInterface(nifid);
+		if (nifid != null) {
+			
+			Interface ninterface = getInterface(nifid);
 
-		if (ninterface != null) {
-			Logger.log(LogLevel.FORWARD,super.name + "[forwarding[interface:" + ninterface.getIfId() + "]]:" + datagram.toString());
-			ninterface.transmit(datagram);
+			if (ninterface != null) {
+				Logger.log(LogLevel.FORWARD,super.name + "[forwarding[interface:" + ninterface.getIfId() + "]]:" + datagram.toString());
+				ninterface.transmit(datagram);
+			} else {
+				Logger.log(LogLevel.FORWARD,super.name + "[interface not found]:" + datagram.toString());
+			}
 		} else {
-			Logger.log(LogLevel.FORWARD,super.name + "[no route found]:" + datagram.toString());
+			Logger.log(LogLevel.FORWARD,super.name + "[no route not found]:" + datagram.toString());
 		}
+		
 	}
 	
 	private void displayInterfaces() {

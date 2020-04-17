@@ -17,9 +17,10 @@ public class ForwardingTable {
 		table.put(ipaddr, nifid);
 	}
 
-	public int match(IPAddress dest) {
+	public Integer match(IPAddress dest) {
 
 		return table.get(dest);
+		
 	}
 
 	public void display() {
