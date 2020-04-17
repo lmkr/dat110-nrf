@@ -65,7 +65,137 @@ Modify the implementation of NRF such that network prefixes can be used in the r
 
 #### Exercise 7 - Implementation of link-state routing algorithm
 
-** EXERCISE TODO **
+The aim of this assignment is to implement Dijsktra algorithm as specified on page 408 in the networking book. The NRF framework contains start code for implementing the algorithm via the `no.hvl.dat110.control` package and the `no.hvl.dat110.controlplane.linkstate` package.
+
+The start of an implementation can be found in the class `LSDikjstra.java`:
+
+```java
+public class LSDijkstra {
+
+	protected Integer u; // node for which least-cost paths are being computed
+
+	protected NetworkGraph graph;
+
+	protected ArrayList<Integer> Nprime;
+	protected ArrayList<Integer> N;
+
+	protected HashMap<Integer, LSEntry> entries;
+	protected HashMap<Integer,Integer> forwardingtable;
+  ...
+
+```
+
+Nodes in the network graph are represented as integers.
+
+The object variable `graph` represent the network graph, and `Nprime` and `N` is for representing the two accordingly named sets of nodes from the algorithm.
+
+The `forwardingtable` is to be used for storing the forwarding table calculated for the node, then `entries` is used to keep track of the currently estimated distance to each node in the network and the predecessor node on the path leading to this node.
+
+The class already implements utility methods for accessing and setting D(v) and p(v) from the algorithm:
+
+```java
+protected int D(Integer v) {
+  return entries.get(v).getD();
+}
+
+protected void setD(Integer v, int distance) {
+  entries.get(v).setD(distance);
+}
+
+protected Integer p(Integer v) {
+  return entries.get(v).getPrev();
+}
+
+protected void setp(Integer v, Integer n) {
+  entries.get(v).setPrev(n);
+}
+```
+
+The class in addition contains an implementation of the method `findMinNode()` which can find a node in `N` with the currently smallest estimated distance findMinNodeN().
+
+##### 7.1: Implement Dijkstra's algorithm
+
+Your first task is to complete the implementation of the methods `protected void init()` and `protected void loop()` corresponding to the initalisation step and the loop step in Dikjstra's algorithm.
+
+All weights of the edges in the graph in the NRF network can be assumed to be 1, i.e., all edges in the network have the same (unit) cost.
+
+The method `graph.getNeighbours(v)`` can be used to obtain the neighbour nodes of a node `v`
+
+##### 7.2: Construct the forwarding tables
+
+The second task is to construct the forwarding tables based on the least-cost paths computed by Dikjstra's algorithm.
+
+This is to be done by implementing the following two methods:
+
+```java
+protected int findNextHop(int destnode) {
+
+		// TODO search backwards in predecessor to find next hop for node
+		return 0;
+	}
+
+	public void constructForwardingTable() {
+
+		Logger.lg(LogLevel.LS, "Constructing forwarding table ...");
+
+		// TODO: complete construction of forwarding table based on distance vector, D(v), and p(v) information
+
+		Logger.log(LogLevel.LS, "done");
+
+	}
+```
+
+The `findNextHop`-method must use the predesssor information `p(v)` computed for each destination to find the next hop on a route to the destination. The `constructForwardingTable`-method must insert a next hop into the forwarding table for each destination using the `put`-method on the forwarding table.
+
+##### 7.3: Testing the Implementation
+
+The class `LSRoutingExample.java` in the NRF exercises project contains a unit-test for testing the implementation. The test network consists of three routers R1, R2, and R3 wuch that R1 is connected to R2 and R2 is connected to R3.
+
+If the implementation is correct, then the console output when running the test should look similar to the following:
+
+```
+LS example network running
+Initialisation step [u=2]
+Entries v[p(v),D(v)]: 1[2,1] 2[2,0] 3[2,1]
+Iteration step
+Selected w=1 |N|=1 |N'|=2
+Entries v[p(v),D(v)]: 1[2,1] 2[2,0] 3[2,1]
+Selected w=3 |N|=0 |N'|=3
+Entries v[p(v),D(v)]: 1[2,1] 2[2,0] 3[2,1]
+Constructing forwarding table ...done
+Initialisation step [u=3]
+Entries v[p(v),D(v)]: 1[-,INF] 2[3,1] 3[3,0]
+Iteration step
+Selected w=2 |N|=1 |N'|=2
+Entries v[p(v),D(v)]: 1[2,2] 2[3,1] 3[3,0]
+Selected w=1 |N|=0 |N'|=3
+Entries v[p(v),D(v)]: 1[2,2] 2[3,1] 3[3,0]
+Constructing forwarding table ...done
+Initialisation step [u=1]
+Entries v[p(v),D(v)]: 1[1,0] 2[1,1] 3[-,INF]
+Iteration step
+Selected w=2 |N|=1 |N'|=2
+Entries v[p(v),D(v)]: 1[1,0] 2[1,1] 3[2,2]
+Selected w=3 |N|=0 |N'|=3
+Entries v[p(v),D(v)]: 1[1,0] 2[1,1] 3[2,2]
+Constructing forwarding table ...done
+LS example network stopping
+Router:R1
+R1: LS Forwarding table (dest -> next-hop)
+1->1
+2->2
+3->2
+Router:R2
+R2: LS Forwarding table (dest -> next-hop)
+1->1
+2->2
+3->3
+Router:R3
+R3: LS Forwarding table (dest -> next-hop)
+1->2
+2->2
+3->3
+```
 
 #### Exercise 8 - Implementation of distance-vector routing algorithm
 
