@@ -86,7 +86,6 @@ public class LSDijkstra {
 	protected HashMap<Integer, LSEntry> entries;
 	protected HashMap<Integer,Integer> forwardingtable;
   ...
-
 ```
 
 Nodes in the network graph are represented as integers. The object variable `graph` represent the network graph, and `Nprime` and `N` is used for representing the two accordingly named sets of nodes in the algorithm.
@@ -95,7 +94,7 @@ The object variable `entries` is used to keep track of the currently estimated d
 
 The `forwardingtable` is to be used for storing the forwarding table calculated as the last step each node.
 
-The class already implements utility methods for accessing and setting `D(v)`` and `p(v)`` from the specification of the algorithm:
+The class already implements utility methods for accessing and setting `D(v)` and `p(v)` from the specification of the algorithm:
 
 ```java
 protected int D(Integer v) {
@@ -123,9 +122,9 @@ Your first task is to complete the implementation of the methods `protected void
 
 All weights of the edges in the graph in the network can be assumed to be 1, i.e., all edges in the network have the same (unit) cost.
 
-The method `graph.getNeighbours(v)`` can be used to obtain the neighbour nodes of a node `v`
+The method `graph.getNeighbours(v)` can be used to obtain the neighbour nodes of a node `v`
 
-##### 7.2: Forwarding table
+##### 7.3: Forwarding table
 
 The second task is to construct the forwarding tables based on the least-cost paths computed by Dikjstra's algorithm.
 
@@ -153,7 +152,7 @@ The `findNextHop`-method must use the predecessor information `p(v)` computed fo
 
 The `constructForwardingTable`-method must insert a next-hop into the forwarding table for each destination (node in the network) using the `put`-method on the forwarding table.
 
-##### 7.3: Testing the Implementation
+##### 7.4: Testing the Implementation
 
 The class `LSRoutingExample.java` in the NRF exercises project contains a unit-test for testing the implementation.
 
@@ -279,4 +278,4 @@ Distance Vector (dest | distance | next-hop)
 
 #### Exercise 9 - Fragmentation
 
-Implement fragmentation of IP datagrams followed how this is supported by the IPv4 protocol.
+Implement fragmentation of IP datagrams following how this is supported by the IPv4 protocol.
